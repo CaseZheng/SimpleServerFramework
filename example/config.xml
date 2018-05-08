@@ -1,0 +1,6 @@
+<xml>
+    <server>
+        <ip>0.0.0.0</ip>
+        <port>10000</port>
+    </server>
+</xml>
