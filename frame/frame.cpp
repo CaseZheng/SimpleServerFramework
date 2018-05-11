@@ -13,7 +13,7 @@ bool CFrame::Init(const string &strServerName, const string &strConfPath)
     m_strConfPath   = strConfPath;
 
     //初始化日志
-    CLog::InitLog("./", m_strServerName);
+    CLog::InitLog(m_strServerName);
     DEBUG("InitLog success");
     
     //初始化配置文件

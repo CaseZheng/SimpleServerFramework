@@ -1,7 +1,11 @@
+#include <boost/shared_ptr.hpp>
+
 #include "main_conf.h"
 #include "frame.h"
+#include "log.h"
 
 using namespace std;
+using boost::shared_ptr;
 
 int main()
 {
@@ -13,15 +17,21 @@ int main()
         return -1;
     }
 
-    CFrame oFrame;
-    if(!oFrame.Init(strServerName, strConfPath))
+    boost::shared_ptr<CFrame> pFrame(CMainConf::GetFrame());
+    if(NULL == pFrame)
     {
-        std::cerr << "Function failed, oFrame.Init" << std::endl;
+        std::cerr << "Function failed, CMainConf::GetFrame" << std::endl;
+        return -1;
+    }
+    if(!pFrame->Init(strServerName, strConfPath))
+    {
+        std::cerr << "Function failed, pFrame->Init" << std::endl;
         return -1;
     }
 
-    if(!oFrame.Run())
+    if(!pFrame->Run())
     {
+        ERROR("Function failed, pFrame->Run");
         return -1;
     }
 

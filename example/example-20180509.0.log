@@ -1,3 +1,0 @@
-20180509-001517.259302|DEBUG|0x00000a54|0x00007fd45723e740|example|118.24.120.128|../frame/frame.cpp|Init|17|InitLog success
-20180509-001517.259857|DEBUG|0x00000a54|0x00007fd45723e740|example|118.24.120.128|../frame/comm/configure.h|PrintConf|56|Ip:0.0.0.0
-20180509-001517.259900|DEBUG|0x00000a54|0x00007fd45723e740|example|118.24.120.128|../frame/comm/configure.h|PrintConf|57|Port:10000
