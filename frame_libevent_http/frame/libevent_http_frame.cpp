@@ -17,4 +17,5 @@ bool CLibeventHttpFrame::Run()
         ERROR("Function failure CFrame::Run");
         return false;
     }
+    return true;
 }
