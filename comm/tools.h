@@ -2,9 +2,13 @@
 #define _TOOLS_H_ 
 
 #include <boost/asio.hpp>  
+#include <boost/filesystem.hpp>
 
 using boost::asio::ip::tcp;  
+using boost::filesystem::path;
 using namespace std;
+
+#include "log.h"
 
 
 namespace tools 
@@ -24,6 +28,12 @@ static string GetHostNameIp()
     }
     return string("");
 }  
+
+static string GetFileNameFromFilePath(const string &strFilePath)
+{
+    boost::filesystem::path boostPath(strFilePath);
+    return boostPath.filename().generic_string();
+}
 
 }
 

@@ -76,7 +76,8 @@ public:
     static void log_print(const severity_level &level, const string &msg);
 };
 
-#define LOG_PRINT(level, msg) CLog::log_print((level), (string(__FILE__)+"|"+__FUNCTION__+"|"+to_string(__LINE__)+"|"+(msg)))
+#define LOG_PRINT(level, msg) CLog::log_print((level), \
+        (tools::GetFileNameFromFilePath(__FILE__)+"|"+__FUNCTION__+"|"+to_string(__LINE__)+"|"+(msg)))
 
 #define INFO(msg)       LOG_PRINT(info, (msg))
 #define DEBUG(msg)      LOG_PRINT(debug, (msg))
