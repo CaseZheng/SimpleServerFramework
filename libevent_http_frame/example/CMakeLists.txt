@@ -38,12 +38,13 @@ INCLUDE_DIRECTORIES(./src/publicmodel)
 #链接库搜索目录
 LINK_DIRECTORIES(/usr/lib)
 LINK_DIRECTORIES(/usr/lib64)
+LINK_DIRECTORIES(/usr/local/lib)
 
 #example最后生成的可执行文件名 赋值给BIN_NAME变量
 SET(BIN_NAME example)
 
 #需要链接的动态库
-SET(SO_LIST pthread boost_system boost_filesystem boost_log_setup boost_log boost_thread)
+SET(SO_LIST pthread boost_system boost_filesystem boost_log_setup boost_log boost_thread event event_core event_extra)
 
 MESSAGE(STATUS "${SO_LIST}")
 
@@ -55,15 +56,3 @@ TARGET_LINK_LIBRARIES(${BIN_NAME} ${SO_LIST})
 
 #设置执行文件输出目录
 SET(EXECUTABLE_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/bin)
-
-
-#SET(CMAKE_BUILE_TYPE DEBUG)                     # 指定编译类型，debug 或者为 release
-                                                # debug 版会生成相关调试信息，可以使用 GDB 进行 
-                                                # release不会生成调试信息。当无法进行调试时查看此处是否设置为 debug
-#SET(CMAKE_CXX_FLAGS_DEBUG "-g -Wall -std=c++11 -dboost_log_dyn_link")           # 指定编译器 
-                                                # CMAKE_C_FLAGS_DEBUG            ----  C 编译器
-                                                # CMAKE_CXX_FLAGS_DEBUG        ----  C++ 编译器
-                                                # -g：只是编译器，在编译的时候，产生调试信息。
-                                                # -Wall：生成所有警告信息。一下是具体的选项，可以单独使用
-
-#SET(PROJECT_BINARY_DIR ./build)

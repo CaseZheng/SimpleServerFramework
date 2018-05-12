@@ -29,6 +29,18 @@ int main()
         return -1;
     }
 
+    //守护进程
+    daemon(1, 0);
+
+    //过滤信号
+    signal(SIGALRM, SIG_IGN);
+    signal(SIGTERM, SIG_IGN);
+    signal(SIGPIPE, SIG_IGN);
+    signal(SIGHUP,  SIG_IGN);
+    signal(SIGINT,  SIG_IGN);
+    signal(SIGQUIT, SIG_IGN);
+    signal(SIGCHLD, SIG_IGN);
+
     if(!pFrame->Run())
     {
         ERROR("Function failed, pFrame->Run");

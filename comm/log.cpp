@@ -21,6 +21,7 @@ bool CLog::InitLog(const string &strLogName)
         keywords::open_mode = std::ios_base::app            //追加写入
         );
 
+    backend_file->auto_flush(true);  
     boost::shared_ptr<TextSink> sink_file(new TextSink(backend_file));  
     //时间|日志等级|进程id|线程id|本地ip|服务名|文件名|函数名|所在行|日志正文
     string strFormat = "%1%|%2%|%3%|%4%|"+strHostNameIp+"|%5%|%6%";

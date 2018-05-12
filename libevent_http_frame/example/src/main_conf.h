@@ -17,10 +17,26 @@ public:
 
         return true;
     }
+
     static CFrame *GetFrame()
     {
         return new CLibeventHttpFrame();
     }
+
+    //static bool addUri(CHttpServer &httpServer)
+    //{
+        //if(httpServer.addUri("/example", NULL))
+        //{
+
+        //}
+    //}
+
+    //static bool addInterface(CHttpServer &httpServer)
+    //{
+        //if(httpServer.addInterface("/example", "test", new (std::nothrow) CExampleLogic)
+        //{
+        //}
+    //}
 };
 
 #endif

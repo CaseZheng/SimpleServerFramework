@@ -1,7 +1,7 @@
 <xml>
     <server>
         <ip>0.0.0.0</ip>
-        <port>10000</port>
+        <port>9999</port>
     </server>
     <mysql>
         <host></host>

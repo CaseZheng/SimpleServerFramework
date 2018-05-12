@@ -1,21 +1,21 @@
 #ifndef _TOOLS_H_
 #define _TOOLS_H_ 
 
+#undef signal_set
+
 #include <boost/asio.hpp>  
 #include <boost/filesystem.hpp>
 
-using boost::asio::ip::tcp;  
-using boost::filesystem::path;
-using namespace std;
-
 #include "log.h"
 
+using namespace std;
 
 namespace tools 
 {
 
 static string GetHostNameIp() 
 {  
+    using boost::asio::ip::tcp;  
     boost::asio::io_service io_service;  
     tcp::resolver resolver(io_service);  
     tcp::resolver::query query(boost::asio::ip::host_name(), "");  
@@ -31,6 +31,7 @@ static string GetHostNameIp()
 
 static string GetFileNameFromFilePath(const string &strFilePath)
 {
+    using boost::filesystem::path;
     boost::filesystem::path boostPath(strFilePath);
     return boostPath.filename().generic_string();
 }
