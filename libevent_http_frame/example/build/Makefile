@@ -312,6 +312,33 @@ home/CaseZheng/SimpleServerFramework/libevent_http_frame/frame/packet_model.cpp.
 	$(MAKE) -f CMakeFiles/example.dir/build.make CMakeFiles/example.dir/home/CaseZheng/SimpleServerFramework/libevent_http_frame/frame/packet_model.cpp.s
 .PHONY : home/CaseZheng/SimpleServerFramework/libevent_http_frame/frame/packet_model.cpp.s
 
+src/logic_model/example_logic.o: src/logic_model/example_logic.cpp.o
+
+.PHONY : src/logic_model/example_logic.o
+
+# target to build an object file
+src/logic_model/example_logic.cpp.o:
+	$(MAKE) -f CMakeFiles/example.dir/build.make CMakeFiles/example.dir/src/logic_model/example_logic.cpp.o
+.PHONY : src/logic_model/example_logic.cpp.o
+
+src/logic_model/example_logic.i: src/logic_model/example_logic.cpp.i
+
+.PHONY : src/logic_model/example_logic.i
+
+# target to preprocess a source file
+src/logic_model/example_logic.cpp.i:
+	$(MAKE) -f CMakeFiles/example.dir/build.make CMakeFiles/example.dir/src/logic_model/example_logic.cpp.i
+.PHONY : src/logic_model/example_logic.cpp.i
+
+src/logic_model/example_logic.s: src/logic_model/example_logic.cpp.s
+
+.PHONY : src/logic_model/example_logic.s
+
+# target to generate assembly for a file
+src/logic_model/example_logic.cpp.s:
+	$(MAKE) -f CMakeFiles/example.dir/build.make CMakeFiles/example.dir/src/logic_model/example_logic.cpp.s
+.PHONY : src/logic_model/example_logic.cpp.s
+
 # Help Target
 help:
 	@echo "The following are some of the valid targets for this Makefile:"
@@ -342,6 +369,9 @@ help:
 	@echo "... home/CaseZheng/SimpleServerFramework/libevent_http_frame/frame/packet_model.o"
 	@echo "... home/CaseZheng/SimpleServerFramework/libevent_http_frame/frame/packet_model.i"
 	@echo "... home/CaseZheng/SimpleServerFramework/libevent_http_frame/frame/packet_model.s"
+	@echo "... src/logic_model/example_logic.o"
+	@echo "... src/logic_model/example_logic.i"
+	@echo "... src/logic_model/example_logic.s"
 .PHONY : help
 
 

@@ -11,6 +11,7 @@ set(CMAKE_DEPENDS_CHECK_CXX
   "/home/CaseZheng/SimpleServerFramework/libevent_http_frame/frame/http_server.cpp" "/home/CaseZheng/SimpleServerFramework/libevent_http_frame/example/build/CMakeFiles/example.dir/home/CaseZheng/SimpleServerFramework/libevent_http_frame/frame/http_server.cpp.o"
   "/home/CaseZheng/SimpleServerFramework/libevent_http_frame/frame/libevent_http_frame.cpp" "/home/CaseZheng/SimpleServerFramework/libevent_http_frame/example/build/CMakeFiles/example.dir/home/CaseZheng/SimpleServerFramework/libevent_http_frame/frame/libevent_http_frame.cpp.o"
   "/home/CaseZheng/SimpleServerFramework/libevent_http_frame/frame/packet_model.cpp" "/home/CaseZheng/SimpleServerFramework/libevent_http_frame/example/build/CMakeFiles/example.dir/home/CaseZheng/SimpleServerFramework/libevent_http_frame/frame/packet_model.cpp.o"
+  "/home/CaseZheng/SimpleServerFramework/libevent_http_frame/example/src/logic_model/example_logic.cpp" "/home/CaseZheng/SimpleServerFramework/libevent_http_frame/example/build/CMakeFiles/example.dir/src/logic_model/example_logic.cpp.o"
   )
 set(CMAKE_CXX_COMPILER_ID "GNU")
 
@@ -20,9 +21,10 @@ set(CMAKE_CXX_TARGET_INCLUDE_PATH
   "../../../frame"
   "../../frame"
   ".././src"
-  ".././src/datamodel"
-  ".././src/logicmodel"
-  ".././src/publicmodel"
+  ".././src/data_model"
+  ".././src/logic_model"
+  ".././src/public_model"
+  "/usr/include/jsoncpp"
   )
 
 # Targets to which this target links.

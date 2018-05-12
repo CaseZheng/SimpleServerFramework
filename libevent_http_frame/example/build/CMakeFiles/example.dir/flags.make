@@ -6,5 +6,5 @@ CXX_FLAGS =  -O0 -Wall -g -ggdb -std=c++11 -DBOOST_LOG_DYN_LINK
 
 CXX_DEFINES = 
 
-CXX_INCLUDES = -I/home/CaseZheng/SimpleServerFramework/libevent_http_frame/example/../../comm -I/home/CaseZheng/SimpleServerFramework/libevent_http_frame/example/../../frame -I/home/CaseZheng/SimpleServerFramework/libevent_http_frame/example/../frame -I/home/CaseZheng/SimpleServerFramework/libevent_http_frame/example/./src -I/home/CaseZheng/SimpleServerFramework/libevent_http_frame/example/./src/datamodel -I/home/CaseZheng/SimpleServerFramework/libevent_http_frame/example/./src/logicmodel -I/home/CaseZheng/SimpleServerFramework/libevent_http_frame/example/./src/publicmodel 
+CXX_INCLUDES = -I/home/CaseZheng/SimpleServerFramework/libevent_http_frame/example/../../comm -I/home/CaseZheng/SimpleServerFramework/libevent_http_frame/example/../../frame -I/home/CaseZheng/SimpleServerFramework/libevent_http_frame/example/../frame -I/home/CaseZheng/SimpleServerFramework/libevent_http_frame/example/./src -I/home/CaseZheng/SimpleServerFramework/libevent_http_frame/example/./src/data_model -I/home/CaseZheng/SimpleServerFramework/libevent_http_frame/example/./src/logic_model -I/home/CaseZheng/SimpleServerFramework/libevent_http_frame/example/./src/public_model -I/usr/include/jsoncpp 
 

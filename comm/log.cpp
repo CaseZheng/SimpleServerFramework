@@ -1,4 +1,5 @@
 #include "log.h"
+#include "configure.h"
 
 void CLog::SetFilter(severity_level filterLevel)
 {
@@ -9,7 +10,7 @@ bool CLog::InitLog(const string &strLogName)
 {
     SetFilter(debug);
 
-    string strLogPath = "./log/";
+    string strLogPath    = CConfigure::GetLogPath();
     string strHostNameIp = tools::GetHostNameIp();
 
     typedef sinks::synchronous_sink<sinks::text_file_backend> TextSink;

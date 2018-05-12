@@ -16,6 +16,7 @@ public:
     static bool InitConf(const string &strConfPath);
     static void PrintConf();
 
+    static const string & GetServerId()      { return m_strId;}
     static const string & GetIp()            { return m_strIp; }
     static const string & GetPort()          { return m_strPort; }
     static const string & GetMySqlHost()     { return m_strMySqlh; }
@@ -25,10 +26,12 @@ public:
     static const string & GetRedisHost()     { return m_strRedish; }
     static const string & GetRedisPort()     { return m_strRedisp; }
     static const string & GetRedisAuth()     { return m_strRedisa; }
+    static const string & GetLogPath()       { return m_strLogPath;}
 private:
     CConfigure(const CConfigure&);
     CConfigure &operator=(const CConfigure&);
 
+    static string m_strId;            //server Id
     static string m_strIp;            //listen ip
     static string m_strPort;          //listen port
 
@@ -40,6 +43,8 @@ private:
     static string m_strRedish;        //redis host
     static string m_strRedisp;        //redis port
     static string m_strRedisa;        //redis auth
+
+    static string m_strLogPath;       //log path
 };
 
 

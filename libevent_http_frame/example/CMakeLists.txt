@@ -20,9 +20,9 @@ AUX_SOURCE_DIRECTORY(../../comm          SOURCE_LIST)
 AUX_SOURCE_DIRECTORY(../../frame         SOURCE_LIST)
 AUX_SOURCE_DIRECTORY(../frame            SOURCE_LIST)
 AUX_SOURCE_DIRECTORY(./src               SOURCE_LIST)
-AUX_SOURCE_DIRECTORY(./src/datamodel     SOURCE_LIST)
-AUX_SOURCE_DIRECTORY(./src/logicmodel    SOURCE_LIST)
-AUX_SOURCE_DIRECTORY(./src/publicmodel   SOURCE_LIST)
+AUX_SOURCE_DIRECTORY(./src/data_model    SOURCE_LIST)
+AUX_SOURCE_DIRECTORY(./src/logic_model   SOURCE_LIST)
+AUX_SOURCE_DIRECTORY(./src/public_model  SOURCE_LIST)
 
 MESSAGE(STATUS "${SOURCE_LIST}")
 
@@ -31,9 +31,11 @@ INCLUDE_DIRECTORIES(../../comm)
 INCLUDE_DIRECTORIES(../../frame)
 INCLUDE_DIRECTORIES(../frame)
 INCLUDE_DIRECTORIES(./src)
-INCLUDE_DIRECTORIES(./src/datamodel)
-INCLUDE_DIRECTORIES(./src/logicmodel)
-INCLUDE_DIRECTORIES(./src/publicmodel)
+INCLUDE_DIRECTORIES(./src/data_model)
+INCLUDE_DIRECTORIES(./src/logic_model)
+INCLUDE_DIRECTORIES(./src/public_model)
+INCLUDE_DIRECTORIES(/usr/include/jsoncpp)
+
 
 #链接库搜索目录
 LINK_DIRECTORIES(/usr/lib)
@@ -44,7 +46,7 @@ LINK_DIRECTORIES(/usr/local/lib)
 SET(BIN_NAME example)
 
 #需要链接的动态库
-SET(SO_LIST pthread boost_system boost_filesystem boost_log_setup boost_log boost_thread event event_core event_extra)
+SET(SO_LIST pthread boost_system boost_filesystem boost_log_setup boost_log boost_thread event event_core event_extra jsoncpp)
 
 MESSAGE(STATUS "${SO_LIST}")
 

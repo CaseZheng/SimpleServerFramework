@@ -6,6 +6,7 @@ file(REMOVE_RECURSE
   "CMakeFiles/example.dir/home/CaseZheng/SimpleServerFramework/libevent_http_frame/frame/http_server.cpp.o"
   "CMakeFiles/example.dir/home/CaseZheng/SimpleServerFramework/libevent_http_frame/frame/packet_model.cpp.o"
   "CMakeFiles/example.dir/home/CaseZheng/SimpleServerFramework/libevent_http_frame/frame/libevent_http_frame.cpp.o"
+  "CMakeFiles/example.dir/src/logic_model/example_logic.cpp.o"
   "../bin/example.pdb"
   "../bin/example"
 )

@@ -4,6 +4,9 @@
 #include <string>
 #include <iostream>
 #include "libevent_http_frame.h"
+#include "packet_model.h"
+#include "example_logic.h"
+#include "log.h"
 
 using namespace std;
 
@@ -31,12 +34,15 @@ public:
         //}
     //}
 
-    //static bool addInterface(CHttpServer &httpServer)
-    //{
-        //if(httpServer.addInterface("/example", "test", new (std::nothrow) CExampleLogic)
-        //{
-        //}
-    //}
+    static bool AddInterface()
+    {
+        if(!CPacketModel::AddInterface("/example", "test", new (std::nothrow) CExampleLogic))
+        {
+            ERROR("AddInterface failure");
+            return false;
+        }
+        return true;
+    }
 };
 
 #endif

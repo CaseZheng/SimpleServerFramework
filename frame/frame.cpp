@@ -12,12 +12,13 @@ bool CFrame::Init(const string &strServerName, const string &strConfPath)
     m_strServerName = strServerName;
     m_strConfPath   = strConfPath;
 
+    //初始化配置文件
+    CConfigure::InitConf(strConfPath);
+
     //初始化日志
     CLog::InitLog(m_strServerName);
     DEBUG("InitLog success");
-    
-    //初始化配置文件
-    CConfigure::InitConf(strConfPath);
+
     CConfigure::PrintConf();
 
     return true;

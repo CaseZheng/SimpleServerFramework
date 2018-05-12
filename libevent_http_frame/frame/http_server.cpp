@@ -5,6 +5,7 @@
 #include "http_server.h"
 #include "log.h"
 #include "configure.h"
+#include "main_conf.h"
 
 void CHttpServer::HttpLog(int severity, const char *msg)
 {
@@ -58,6 +59,12 @@ bool CHttpServer::Init()
     }
 
     evhttp_set_gencb(m_pEvHttp.get(), &HttpCb, m_pPacketModel.get());
+
+    if(!CMainConf::AddInterface())
+    {
+        ERROR("CMainConf::AddInterface failure");
+        return false;
+    }
 
     return true;
 }
