@@ -1,6 +1,5 @@
 #include <boost/shared_ptr.hpp>
 #include "libevent_frame.h"
-#include "http_server.h"
 #include "log.h"
 
 bool CLibeventFrame::Init(const string &strServerName, const string &strConfPath)
@@ -10,6 +9,27 @@ bool CLibeventFrame::Init(const string &strServerName, const string &strConfPath
         ERROR("Function failure CFrame::Init");
         return false;
     }
+
+    m_pEventBase.reset(event_base_new(), event_base_free);
+    if(NULL == m_pEventBase)
+    {
+        ERROR("event_base_new failure");
+        return false;
+    }
+
+    m_pHttpServer.reset(new CHttpServer(m_pEventBase));
+    if(NULL == m_pHttpServer)
+    {
+        ERROR("CHttpServer new failure");
+        return false;
+    }
+
+    if(!m_pHttpServer->Init())
+    {
+        ERROR("HttpServer Init failure");
+        return false;
+    }
+
     return true;
 }
 
@@ -21,24 +41,10 @@ bool CLibeventFrame::Run()
         return false;
     }
 
-    boost::shared_ptr<CHttpServer> pHttpServer(new CHttpServer);
-    if(NULL == pHttpServer)
+    if(0 != event_base_dispatch(m_pEventBase.get()))
     {
-        ERROR("CHttpServer new failure");
+        ERROR("event_base_dispatch failure");
         return false;
     }
-
-    if(!pHttpServer->Init())
-    {
-        ERROR("HttpServer Init failure");
-        return false;
-    }
-
-    if(!pHttpServer->Run())
-    {
-        ERROR("HttpServer Run failure");
-        return false;
-    }
-
     return true;
 }

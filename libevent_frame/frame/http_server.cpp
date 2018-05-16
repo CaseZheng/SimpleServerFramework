@@ -31,13 +31,6 @@ bool CHttpServer::Init()
     event_enable_debug_logging(EVENT_DBG_NONE);
     event_set_log_callback(CHttpServer::HttpLog);
 
-    m_pEventBase.reset(event_base_new(), event_base_free);
-    if(NULL == m_pEventBase)
-    {
-        ERROR("event_base_new failure");
-        return false;
-    }
-
     m_pEvHttp.reset(evhttp_new(m_pEventBase.get()), evhttp_free);
     if(NULL == m_pEvHttp)
     {
@@ -83,16 +76,6 @@ bool CHttpServer::Init()
         }
     }
 
-    return true;
-}
-
-bool CHttpServer::Run()
-{
-    if(0 != event_base_dispatch(m_pEventBase.get()))
-    {
-        ERROR("event_base_dispatch failure");
-        return false;
-    }
     return true;
 }
 

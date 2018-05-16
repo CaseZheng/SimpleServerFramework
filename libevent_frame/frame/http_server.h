@@ -23,11 +23,10 @@ typedef struct UriInfo
 class CHttpServer
 {
 public:
-	CHttpServer(){}
+	CHttpServer(boost::shared_ptr<struct event_base> pEventBase) : m_pEventBase(pEventBase) {}
 	virtual ~CHttpServer(){}
 
 	bool Init();
-	bool Run();
     bool AddUri(const string &strUri, EVHTTP_CB cb, void *cbarg);
 
 private:
