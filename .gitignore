@@ -35,4 +35,4 @@ cscope.files
 tags
 
 *.log
-build/*
+libevent_frame/example/build/*
