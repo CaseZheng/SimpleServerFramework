@@ -23,6 +23,7 @@ AUX_SOURCE_DIRECTORY(./src               SOURCE_LIST)
 AUX_SOURCE_DIRECTORY(./src/data_model    SOURCE_LIST)
 AUX_SOURCE_DIRECTORY(./src/logic_model   SOURCE_LIST)
 AUX_SOURCE_DIRECTORY(./src/public_model  SOURCE_LIST)
+AUX_SOURCE_DIRECTORY(./src/packet_model  SOURCE_LIST)
 
 MESSAGE(STATUS "${SOURCE_LIST}")
 
@@ -34,6 +35,7 @@ INCLUDE_DIRECTORIES(./src)
 INCLUDE_DIRECTORIES(./src/data_model)
 INCLUDE_DIRECTORIES(./src/logic_model)
 INCLUDE_DIRECTORIES(./src/public_model)
+INCLUDE_DIRECTORIES(./src/packet_model)
 INCLUDE_DIRECTORIES(/usr/include/jsoncpp)
 
 

@@ -1,3 +1,0 @@
-/home/CaseZheng/SimpleServerFramework/libevent_http_frame/example/build/CMakeFiles/edit_cache.dir
-/home/CaseZheng/SimpleServerFramework/libevent_http_frame/example/build/CMakeFiles/rebuild_cache.dir
-/home/CaseZheng/SimpleServerFramework/libevent_http_frame/example/build/CMakeFiles/example.dir

@@ -6,41 +6,6 @@ map<string, map<string, boost::shared_ptr<CDealModel>> >
     CPacketModel::m_uriInterfaceDealModel = 
         map<string, map<string, boost::shared_ptr<CDealModel>> >();
 
-void CPacketModel::InitInPacket(const enum evhttp_cmd_type eHttpType,
-        const std::string& strIn,
-        const std::string& strUrlPath, 
-        const std::string& strUrlParams)
-{
-    Reset();
-
-    m_eHttpType    = eHttpType;
-    m_strIn        = strIn;
-    m_strUrlPath   = strUrlPath;
-    m_strUrlParams = strUrlParams;
-}
-
-void CPacketModel::DealPacket()
-{
-    do 
-    {
-        if(!CheckAndUnpack())
-        {
-            ERROR("CheckAndUnpack failure");
-            break;
-        }
-        if(!Deal())
-        {
-            ERROR("CheckAndUnpack failure");
-            break;
-        }
-    }
-    while(0);
-
-    Pack();
-    
-    return;
-}
-
 bool CPacketModel::Pack()
 {
     Json::Value jRet;
@@ -62,6 +27,7 @@ bool CPacketModel::Pack()
 
 bool CPacketModel::CheckAndUnpack()
 {
+    Reset();
     if(m_uriInterfaceDealModel.find(m_strUrlPath) == m_uriInterfaceDealModel.end())
     {
         m_strRet = "1";
@@ -161,6 +127,29 @@ bool CPacketModel::AddInterface(const string& strUri,
 
     CPacketModel::m_uriInterfaceDealModel[strUri][strInterface] 
         = boost::shared_ptr<CDealModel>(pDealModel);
+
+    return true;
+}
+
+
+bool CPacketModel::DealPacket()
+{
+    do 
+    {
+        if(!CheckAndUnpack())
+        {
+            ERROR("CheckAndUnpack failure");
+            break;
+        }
+        if(!Deal())
+        {
+            ERROR("CheckAndUnpack failure");
+            break;
+        }
+    }
+    while(0);
+
+    Pack();
 
     return true;
 }
