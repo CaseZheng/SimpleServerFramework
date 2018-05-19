@@ -33,8 +33,6 @@ private:
 	CHttpServer(const CHttpServer&);
 	CHttpServer& operator=(const CHttpServer&);
 
-    static void HttpLog(int severity, const char *msg);
-
     boost::shared_ptr<struct event_base> m_pEventBase;
     boost::shared_ptr<struct evhttp> m_pEvHttp;
     boost::shared_ptr<CPacket> m_pPacket;

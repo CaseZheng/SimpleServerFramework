@@ -7,9 +7,11 @@
 #include "packet_model.h"
 #include "log.h"
 #include "http_server.h"
+#include "timer_server.h"
 
 #include "example_logic.h"
 #include "example_packet.h"
+#include "example_timer.h"
 
 using namespace std;
 
@@ -42,6 +44,16 @@ public:
         if(!CPacketModel::AddInterface("/example/interface", "test", new (std::nothrow) CExampleLogic))
         {
             ERROR("AddInterface failure");
+            return false;
+        }
+        return true;
+    }
+
+    static bool InsertTimer()
+    {
+        if(!CTimerServer::InsertTimer(new (std::nothrow) CExampleTimer))
+        {
+            ERROR("InsertTimer failure");
             return false;
         }
         return true;

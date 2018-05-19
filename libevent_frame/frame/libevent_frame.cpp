@@ -10,6 +10,10 @@ bool CLibeventFrame::Init(const string &strServerName, const string &strConfPath
         return false;
     }
 
+    //event_enable_debug_logging(EVENT_DBG_ALL);
+    event_enable_debug_logging(EVENT_DBG_NONE);
+    event_set_log_callback(CLibeventFrame::LibeventLog);
+
     m_pEventBase.reset(event_base_new(), event_base_free);
     if(NULL == m_pEventBase)
     {
@@ -29,6 +33,21 @@ bool CLibeventFrame::Init(const string &strServerName, const string &strConfPath
         ERROR("HttpServer Init failure");
         return false;
     }
+    DEBUG("HttpServer Init success");
+
+    m_pTimerServer.reset(new CTimerServer(m_pEventBase));
+    if(NULL == m_pTimerServer)
+    {
+        ERROR("CTimerServer new failure");
+        return false;
+    }
+
+    if(!m_pTimerServer->Init())
+    {
+        ERROR("TimerServer Init failure");
+        return false;
+    }
+    DEBUG("TimerServer Init success");
 
     return true;
 }
@@ -47,4 +66,20 @@ bool CLibeventFrame::Run()
         return false;
     }
     return true;
+}
+
+void CLibeventFrame::LibeventLog(int severity, const char *msg)
+{
+    if(EVENT_LOG_DEBUG == severity || EVENT_LOG_MSG == severity)
+    {
+        DEBUG(msg);
+    }
+    else if(EVENT_LOG_WARN == severity)
+    {
+        WARNING(msg);
+    }
+    else
+    {
+        ERROR(msg);
+    }
 }

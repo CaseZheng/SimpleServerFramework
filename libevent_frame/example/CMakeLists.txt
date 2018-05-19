@@ -17,7 +17,7 @@ SET(CMAKE_CXX_FLAGS_RELEASE "$ENV{CXXFLAGS} -O3 -Wall -std=c++11 -DBOOST_LOG_DYN
 
 #源文件
 AUX_SOURCE_DIRECTORY(../../comm                 SOURCE_LIST)
-AUX_SOURCE_DIRECTORY(../../comm/redis_client    SOURCE_LIST)
+AUX_SOURCE_DIRECTORY(../../comm/xredis          SOURCE_LIST)
 AUX_SOURCE_DIRECTORY(../../frame                SOURCE_LIST)
 AUX_SOURCE_DIRECTORY(../frame                   SOURCE_LIST)
 AUX_SOURCE_DIRECTORY(./src                      SOURCE_LIST)
@@ -25,12 +25,13 @@ AUX_SOURCE_DIRECTORY(./src/data_model           SOURCE_LIST)
 AUX_SOURCE_DIRECTORY(./src/logic_model          SOURCE_LIST)
 AUX_SOURCE_DIRECTORY(./src/public_model         SOURCE_LIST)
 AUX_SOURCE_DIRECTORY(./src/packet_model         SOURCE_LIST)
+AUX_SOURCE_DIRECTORY(./src/timer_model          SOURCE_LIST)
 
 MESSAGE(STATUS "${SOURCE_LIST}")
 
 #头文件搜索目录
 INCLUDE_DIRECTORIES(../../comm)
-INCLUDE_DIRECTORIES(../../comm/redis_client)
+INCLUDE_DIRECTORIES(../../comm/xredis)
 INCLUDE_DIRECTORIES(../../frame)
 INCLUDE_DIRECTORIES(../frame)
 INCLUDE_DIRECTORIES(./src)
@@ -38,6 +39,7 @@ INCLUDE_DIRECTORIES(./src/data_model)
 INCLUDE_DIRECTORIES(./src/logic_model)
 INCLUDE_DIRECTORIES(./src/public_model)
 INCLUDE_DIRECTORIES(./src/packet_model)
+INCLUDE_DIRECTORIES(./src/timer_model)
 INCLUDE_DIRECTORIES(/usr/include/jsoncpp)
 INCLUDE_DIRECTORIES(/usr/include/hiredis)
 

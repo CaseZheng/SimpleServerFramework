@@ -9,28 +9,9 @@
 #include "main_conf.h"
 #include "packet_model.h"
 
-void CHttpServer::HttpLog(int severity, const char *msg)
-{
-    if(EVENT_LOG_DEBUG == severity || EVENT_LOG_MSG == severity)
-    {
-        DEBUG(msg);
-    }
-    else if(EVENT_LOG_WARN == severity)
-    {
-        WARNING(msg);
-    }
-    else
-    {
-        ERROR(msg);
-    }
-}
 
 bool CHttpServer::Init()
 {
-    //event_enable_debug_logging(EVENT_DBG_ALL);
-    event_enable_debug_logging(EVENT_DBG_NONE);
-    event_set_log_callback(CHttpServer::HttpLog);
-
     m_pEvHttp.reset(evhttp_new(m_pEventBase.get()), evhttp_free);
     if(NULL == m_pEvHttp)
     {
