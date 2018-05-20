@@ -39,5 +39,3 @@ CMakeCache.txt
 CMakeFiles
 Makefile
 cmake_install.cmake
-libevent_http_frame/example/build
-libevent_timer_frame/example/build
