@@ -16,7 +16,7 @@ bool CLog::InitLog(const string &strLogName)
     typedef sinks::synchronous_sink<sinks::text_file_backend> TextSink;
     boost::shared_ptr<sinks::text_file_backend> backend_file = boost::make_shared<sinks::text_file_backend>(  
         keywords::file_name = strLogPath + "/" + strLogName + "-%Y%m%d.%N.log",  
-        keywords::rotation_size = 10 * 1024 * 1024,  
+        keywords::rotation_size = 10 * 1024 * 1024 * 100,  
         keywords::time_based_rotation = sinks::file::rotation_at_time_point(0, 0, 0),  //每天00:00:00创建新日志文件
         keywords::min_free_space = 30 * 1024 * 1024,
         keywords::open_mode = std::ios_base::app            //追加写入

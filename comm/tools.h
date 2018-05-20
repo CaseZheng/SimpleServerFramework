@@ -10,6 +10,7 @@
 #include <boost/uuid/uuid.hpp>
 #include <boost/uuid/uuid_generators.hpp>
 #include <boost/uuid/uuid_io.hpp>
+#include <boost/log/attributes/current_process_name.hpp>
 
 #include "log.h"
 
@@ -49,6 +50,11 @@ public:
         uuid ranUUID = rgen();
         ss << ranUUID;
         return ss.str();
+    }
+
+    static string GetProcessName()
+    {
+        return boost::log::aux::get_process_name();
     }
 
 };
