@@ -5,7 +5,7 @@
 
 #include "frame.h"
 #include "libevent_frame.h"
-//#include "tcp_server.h"
+#include "tcp_server.h"
 
 using namespace std;
 
@@ -18,7 +18,7 @@ public:
     virtual bool Init(const string &strServerName, const string &strConfPath);
 
 private:
-    //boost::shared_ptr<CTcpServer> m_pTcpServer;
+    boost::shared_ptr<CTcpServer> m_pTcpServer;
 };
 
 #endif

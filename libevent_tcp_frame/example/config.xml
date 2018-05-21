@@ -2,7 +2,7 @@
     <server>
         <id>100003</id>
         <ip>0.0.0.0</ip>
-        <port>9997</port>
+        <port>9998</port>
     </server>
     <mysql>
         <host></host>

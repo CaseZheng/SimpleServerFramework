@@ -1,8 +1,6 @@
 <xml>
     <server>
         <id>100002</id>
-        <ip>0.0.0.0</ip>
-        <port>9998</port>
     </server>
     <mysql>
         <host></host>
