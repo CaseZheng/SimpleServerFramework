@@ -2,6 +2,8 @@
 #define _TCP_SERVER_H_ 
 
 #include <string>
+#include <map>
+
 #include <boost/shared_ptr.hpp>
 #include <boost/utility.hpp>
 #include <event2/event.h>
@@ -10,6 +12,7 @@
 
 #include "log.h"
 #include "timer.h"
+#include "socket_handle.h"
 
 using namespace std;
 using boost::shared_ptr;
@@ -32,9 +35,18 @@ private:
             int len,
             void * ptr);
 
+    static void SocketReadCb(int fd, short events, void *arg);
+    static void SocketWriteCb(int fd, short events, void *arg);
+
+    struct event_base* GetEventBase() { return m_pEventBase.get(); }
+    boost::shared_ptr<CSocketHandle> GetSocketHandleByFd(int fd);
+    void InsertSocketHandle(int sock, boost::shared_ptr<CSocketHandle> &pSocketHandle);
+    void EraseSocketHandleBySocket(int sock);
+
 private:
     boost::shared_ptr<struct evconnlistener> m_pEvConnListener;
     boost::shared_ptr<struct event_base> m_pEventBase;
+    std::map<int, boost::shared_ptr<CSocketHandle>> m_mSocketHandle;
 };
 
 #endif
