@@ -4,7 +4,6 @@
 
 bool IPacketModel::ReadPacket(vector<char> &vBuffer)
 {
-        ERROR("m_pPacketModel is NULL");
     stringstream ss;
     for(auto &it : vBuffer)
     {

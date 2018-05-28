@@ -6,6 +6,7 @@
 
 #include <boost/shared_ptr.hpp>
 #include <boost/utility.hpp>
+#include <boost/enable_shared_from_this.hpp>
 #include <event2/event.h>
 #include <event2/buffer.h>
 #include <event2/listener.h>
@@ -20,13 +21,16 @@ using boost::shared_ptr;
 
 typedef evconnlistener_cb EVCONNLISTENER_CB;
 
-class CTcpServer : public boost::noncopyable
+class CSocketHandle;
+
+class CTcpServer : public boost::noncopyable, public boost::enable_shared_from_this<CTcpServer>
 {
 public:
 	CTcpServer(boost::shared_ptr<struct event_base> pEventBase) : m_pEventBase(pEventBase) {}
 	virtual ~CTcpServer(){}
 
 	bool Init();
+    void EraseSocketHandleBySocket(int sock);
 
 private:
     static void EvConnListenerCb(struct evconnlistener * stener, 
@@ -41,7 +45,6 @@ private:
     struct event_base* GetEventBase() { return m_pEventBase.get(); }
     boost::shared_ptr<CSocketHandle> GetSocketHandleByFd(int fd);
     void InsertSocketHandle(int sock, boost::shared_ptr<CSocketHandle> &pSocketHandle);
-    void EraseSocketHandleBySocket(int sock);
 
 private:
     boost::shared_ptr<struct evconnlistener> m_pEvConnListener;

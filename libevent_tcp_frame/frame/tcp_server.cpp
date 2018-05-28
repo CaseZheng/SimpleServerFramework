@@ -50,11 +50,12 @@ void CTcpServer::EvConnListenerCb(struct evconnlistener * stener,
             int len,
             void * ptr)
 {
-    CTcpServer *pTcpServer = static_cast<CTcpServer*>(ptr);
+    boost::shared_ptr<CTcpServer> pTcpServer = static_cast<CTcpServer*>(ptr)->shared_from_this();
     DEBUG("new socket:" + to_string(sock));
 
     string strClientIp = "";
-    boost::shared_ptr<CSocketHandle> pSocketHandle(new(std::nothrow)CSocketHandle(sock, strClientIp));
+    boost::shared_ptr<CSocketHandle> pSocketHandle(new(std::nothrow)CSocketHandle(
+                                                            sock, strClientIp, pTcpServer));
     if(NULL == pSocketHandle)
     {
         ERROR("pSocketHandle is NULl");
@@ -68,7 +69,7 @@ void CTcpServer::EvConnListenerCb(struct evconnlistener * stener,
         return;
     }
     if(0 != event_assign(pReadEvent.get(), pTcpServer->GetEventBase(), sock, EV_READ|EV_PERSIST,
-                CTcpServer::SocketReadCb, static_cast<void*>(pTcpServer) ))
+                CTcpServer::SocketReadCb, static_cast<void*>(pTcpServer.get()) ))
     {
         ERROR("event_assign error");
         return;
@@ -82,7 +83,7 @@ void CTcpServer::EvConnListenerCb(struct evconnlistener * stener,
     }
 
     if(0 != event_assign(pWriteEvent.get(), pTcpServer->GetEventBase(), sock, EV_WRITE, 
-                CTcpServer::SocketWriteCb, static_cast<void*>(pTcpServer) ))
+                CTcpServer::SocketWriteCb, static_cast<void*>(pTcpServer.get()) ))
     {
         ERROR("event_assign error");
         return;
@@ -120,33 +121,7 @@ void CTcpServer::SocketReadCb(int fd, short events, void *arg)
     }
     if(EV_READ == events)
     {
-        char buff[5];
-        int len = 0;
-        while((len = recv(fd, &buff, sizeof(buff), 0)) > 0)
-        {
-            pSocketHandle->WriteBuffer(buff, len);
-        }
-        if(len < 0)
-        {
-            if(errno==EAGAIN || errno==EWOULDBLOCK || errno==EINTR)
-            {
-                pSocketHandle->ConsumeData();
-            }
-            else 
-            {
-                pSocketHandle->ErrorOrCloseFd();
-                pTcpServer->EraseSocketHandleBySocket(fd);
-            }
-        }
-        else if(0 == len)
-        {
-            pSocketHandle->ErrorOrCloseFd();
-            pTcpServer->EraseSocketHandleBySocket(fd);
-        }
-        else 
-        {
-            pSocketHandle->ConsumeData();
-        }
+        pSocketHandle->ReadData();
     }
 }
 
@@ -165,48 +140,11 @@ void CTcpServer::SocketWriteCb(int fd, short events, void *arg)
         ERROR("pSocketHandle is NULL");
         return ;
     }
-    //if(EV_WRITE == events)
-    //{
-    //    char buff[2048];
-    //    int len = 0;
-    //    for(auto &it : pSocketHandle->m_vWriterBuffer)
-    //    {
-    //        if(len < 2048)
-    //        {
-    //            buff[len] = it;
-    //        }
-    //    }
-    //    int sendLen = send(fd, &buff, len, 0);
-    //    pSocketHandle->m_vWriterBuffer.erase(pSocketHandle->m_vWriterBuffer.begin(), pSocketHandle->m_vWriterBuffer.begin()+sendLen);
-    //    if(!pSocketHandle->m_vWriterBuffer.empty())
-    //    {
-    //        if(0 != event_add(pSocketHandle->m_pWriteEvent.get(), NULL))
-    //        {
-    //            ERROR("event_add error");
-    //        }
-    //    }
-    //}
-    return;
-}
-
-void CSocketHandle::WriteBuffer(char *buffer, int len)
-{
-    m_vReadBuffer.insert(m_vReadBuffer.end(), buffer, (buffer+(len*(sizeof(char))) ));
-}
-
-void CSocketHandle::ConsumeData()
-{
-    if(NULL == m_pPacketModel)
+    if(EV_WRITE == events)
     {
-        ERROR("m_pPacketModel is NULL");
-        return;
-    }
-    while(!m_pPacketModel->ReadPacket(m_vReadBuffer))
-    {
-        ;
+        pSocketHandle->WriteData();
     }
 }
-
 
 boost::shared_ptr<CSocketHandle> CTcpServer::GetSocketHandleByFd(int fd)
 {
