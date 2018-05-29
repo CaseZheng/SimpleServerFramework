@@ -7,8 +7,12 @@
 #include "log.h"
 #include "tools.h"
 #include "libevent_tcp_frame.h"
-#include "exampe_packet_model.h"
 #include "packet_model.h"
+#include "protocol.h"
+
+#include "example_packet_model.h"
+#include "example_deal_model.h"
+#include "example_protocol.h"
 
 using namespace std;
 
@@ -30,9 +34,24 @@ public:
         return new(std::nothrow)CLibeventTcpFrame();
     }
 
-    static IPacketModel* GetPacketModel()
+    static IPacketModel* GetInPacketModel()
     {
-        return new(std::nothrow)CExampePacketModel();
+        return new(std::nothrow)CExampleInPacketModel();
+    }
+
+    static IPacketModel* GetOutPacketModel()
+    {
+        return new(std::nothrow)CExampleOutPacketModel();
+    }
+
+    static IProtocol* GetProtocol()
+    {
+        return new(std::nothrow)CExampleProtocol();
+    }
+
+    static IDealModel* GetDealModel()
+    {
+        return new(std::nothrow)CExampleDealModel();
     }
 };
 

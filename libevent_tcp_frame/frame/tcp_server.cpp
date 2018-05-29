@@ -40,6 +40,20 @@ bool CTcpServer::Init()
     //    ERROR("evconnlistener_eable failure");
     //    return false;
     //}
+    
+    m_pProtocol.reset(CMainConf::GetProtocol());
+    if(NULL == m_pProtocol)
+    {
+        ERROR("m_pProtocol is NULL");
+        return false;
+    }
+
+    m_pDealModel.reset(CMainConf::GetDealModel());
+    if(NULL == m_pDealModel)
+    {
+        ERROR("m_pDealModel is NULL");
+        return false;
+    }
 
     return true;
 }

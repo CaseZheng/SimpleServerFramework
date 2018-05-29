@@ -6,7 +6,6 @@ CSocketHandle::CSocketHandle(int sock, const string &strClientIp,
         boost::shared_ptr<CTcpServer> &pTcpServer)
     : m_iSocketFd(sock), m_strClientIp(strClientIp), m_pTcpServer(pTcpServer)
 {
-    m_pPacketModel.reset(static_cast<IPacketModel*>(CMainConf::GetPacketModel()));
 }
 
 
@@ -94,17 +93,26 @@ void CSocketHandle::WriteData()
 
 void CSocketHandle::ReadPacket()
 {
-    if(NULL == m_pPacketModel)
+    boost::shared_ptr<CTcpServer> pTcpServer = m_pTcpServer.lock();
+    do 
     {
-        ERROR("m_pPacketModel is NULL");
-        return;
-    }
-    while(!m_pPacketModel->ReadPacket(m_vReadBuffer))
-    {
-        ;
-    }
+        boost::shared_ptr<IPacketModel> pPacketModel(CMainConf::GetInPacketModel());
+        if(!pTcpServer->GetIProtocol()->Unpacking(m_vReadBuffer, pPacketModel.get()))
+        {
+            break;
+        }
+        boost::shared_ptr<CSocketHandle> pSocketHandle = shared_from_this(); 
+        pTcpServer->GetIDealModel()->DealPacket(pSocketHandle, pPacketModel);
+    }while(true);
 }
 
-void CSocketHandle::WritePacket()
+void CSocketHandle::WritePacket(boost::shared_ptr<IPacketModel> &pOutPacketModel)
 {
+    boost::shared_ptr<CTcpServer> pTcpServer = m_pTcpServer.lock();
+    pTcpServer->GetIProtocol()->Packets(m_vWriterBuffer, pOutPacketModel.get());
+
+    if(0 != event_add(m_pWriteEvent.get(), NULL))
+    {
+        ERROR("event_add error");
+    }
 }

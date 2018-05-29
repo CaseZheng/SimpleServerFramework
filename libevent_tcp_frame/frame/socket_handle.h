@@ -31,7 +31,7 @@ public:
     void WriteData();
 
     void ReadPacket();
-    void WritePacket();
+    void WritePacket(boost::shared_ptr<IPacketModel> &pOutPacketModel);
 
 private:
     int m_iSocketFd;
@@ -41,7 +41,6 @@ private:
     vector<char> m_vReadBuffer;
     vector<char> m_vWriterBuffer;
 
-    boost::shared_ptr<IPacketModel> m_pPacketModel;
     boost::weak_ptr<CTcpServer> m_pTcpServer;
 };
 

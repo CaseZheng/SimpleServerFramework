@@ -3,7 +3,6 @@
 
 #include <string>
 #include <map>
-
 #include <boost/shared_ptr.hpp>
 #include <boost/utility.hpp>
 #include <boost/enable_shared_from_this.hpp>
@@ -14,9 +13,13 @@
 #include "log.h"
 #include "timer.h"
 #include "socket_handle.h"
+#include "protocol.h"
+#include "deal_model.h"
 
 using namespace std;
 using boost::shared_ptr;
+
+class IDealModel;
 
 
 typedef evconnlistener_cb EVCONNLISTENER_CB;
@@ -31,6 +34,9 @@ public:
 
 	bool Init();
     void EraseSocketHandleBySocket(int sock);
+
+    const boost::shared_ptr<IProtocol> &GetIProtocol() { return m_pProtocol; }
+    const boost::shared_ptr<IDealModel> &GetIDealModel() { return m_pDealModel; }
 
 private:
     static void EvConnListenerCb(struct evconnlistener * stener, 
@@ -50,6 +56,9 @@ private:
     boost::shared_ptr<struct evconnlistener> m_pEvConnListener;
     boost::shared_ptr<struct event_base> m_pEventBase;
     std::map<int, boost::shared_ptr<CSocketHandle>> m_mSocketHandle;
+
+    boost::shared_ptr<IProtocol> m_pProtocol;
+    boost::shared_ptr<IDealModel> m_pDealModel;
 };
 
 #endif
