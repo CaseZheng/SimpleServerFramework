@@ -37,6 +37,7 @@ MESSAGE(STATUS "${PROTO_HDRS}")
 MESSAGE(STATUS "${PROTO_SRCS}")
 MESSAGE(STATUS "${PROTOBUF_INCLUDE_DIRS}")
 MESSAGE(STATUS "${CMAKE_CURRENT_BINARY_DIR}")
+MESSAGE(STATUS "${PROTOBUF_LIBRARIES}")
 
 #源文件
 AUX_SOURCE_DIRECTORY(../../comm                 SOURCE_LIST)
@@ -48,8 +49,6 @@ AUX_SOURCE_DIRECTORY(./src                      SOURCE_LIST)
 AUX_SOURCE_DIRECTORY(./src/data_model           SOURCE_LIST)
 AUX_SOURCE_DIRECTORY(./src/simple_example       SOURCE_LIST)
 AUX_SOURCE_DIRECTORY(./src/pb_example           SOURCE_LIST)
-
-MESSAGE(STATUS "${SOURCE_LIST}")
 
 #头文件搜索目录
 INCLUDE_DIRECTORIES(../../comm)
@@ -76,6 +75,7 @@ SET(BIN_NAME libevent_tcp_example)
 #需要链接的动态库
 SET(SO_LIST pthread boost_system boost_filesystem boost_log_setup boost_log boost_thread event event_core event_extra jsoncpp hiredis)
 
+MESSAGE(STATUS "${SOURCE_LIST}")
 MESSAGE(STATUS "${SO_LIST}")
 
 #生成可执行文件
