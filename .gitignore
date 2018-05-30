@@ -34,6 +34,8 @@
 cscope.*
 tags
 
+*.pb.h 
+*.pb.cc
 *.log
 CMakeCache.txt
 CMakeFiles
