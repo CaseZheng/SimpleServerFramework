@@ -11,8 +11,6 @@ bool CPbProtocol::Unpacking(vector<char> &buff, IPacketModel *packet)
         return false;
     }
 
-    DEBUG(tools::PrintHex(buff));
-
     auto it = buff.begin();
     for(;it!=buff.end(); ++it)
     {
@@ -29,11 +27,6 @@ bool CPbProtocol::Unpacking(vector<char> &buff, IPacketModel *packet)
     }
 
     buff.erase(buff.begin(), it);
-    for(auto &tmp : buff)
-    {
-        DEBUG(tmp);
-    }
-
     it = buff.begin();
     if('B' == *(++it))
     {
@@ -45,9 +38,6 @@ bool CPbProtocol::Unpacking(vector<char> &buff, IPacketModel *packet)
         }
         int len = *((int*)&buff[2]);
         DEBUG("length:" + to_string(len));
-        DEBUG("buffsize:" + to_string(buff.size()));
-        DEBUG(buff.front());
-
         DEBUG(tools::PrintHex(buff));
 
         if(buff.size() < 6+len)

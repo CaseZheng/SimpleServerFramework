@@ -5,6 +5,8 @@
 
 #include "deal_model.h"
 
+#include "pb_packet_model.h"
+
 class CPbDealModel : public IDealModel 
 {
 public:
@@ -13,6 +15,8 @@ public:
 
     virtual bool DealPacket(boost::shared_ptr<CSocketHandle> &pSocketHandle, 
             boost::shared_ptr<IPacketModel> &pInPacketModel);
+
+    void PrintPackageInfo(CPbInPacketModel *pPbInPacketModel);
 };
 
 #endif
