@@ -26,6 +26,8 @@
 
 #include "tools.h"
 
+class tools;
+
 namespace logging  = boost::log;
 namespace sinks    = boost::log::sinks;
 namespace attrs    = boost::log::attributes;

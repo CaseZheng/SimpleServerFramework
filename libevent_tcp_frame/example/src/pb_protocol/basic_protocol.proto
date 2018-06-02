@@ -1,6 +1,16 @@
 package basic_protocol;
 
-message PbBasicProtocol{
-    required string strVersion=1;
-    required string strServerId=2;
+message PbBasicPackage{
+
+    enum SignMethod{
+        MD5 = 1;
+    };
+
+    required int32 version          = 1; // 版本
+    required int32 time_stamps      = 2; // 时间戳
+    required int32 server_id        = 3; // 服务ID
+    required string invoked_id      = 4; // 请求唯一标记
+    required SignMethod sign_method = 5; // 签名方式
+    required string signature       = 6; // 数字签名
+    required bytes boby             = 8; // 二进制包
 }

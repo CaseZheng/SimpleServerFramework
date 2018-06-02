@@ -5,8 +5,6 @@
 
 #include "protocol.h"
 
-#include "basic_protocol.pb.h"
-
 class CPbProtocol : public IProtocol
 {
 public:

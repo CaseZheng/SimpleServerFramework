@@ -12,7 +12,6 @@
 #include <boost/uuid/uuid_io.hpp>
 #include <boost/log/attributes/current_process_name.hpp>
 
-#include "log.h"
 
 using namespace std;
 
@@ -57,6 +56,8 @@ public:
         return boost::log::aux::get_process_name();
     }
 
+
+    static string PrintHex(const vector<char>& buff);
 };
 
 #endif
