@@ -68,6 +68,7 @@ void CSocketHandle::WriteData()
 {
     if(m_vWriterBuffer.empty())
     {
+        DEBUG("buff is empty");
         return;
     }
     char *buff = &m_vWriterBuffer[0];
@@ -76,9 +77,11 @@ void CSocketHandle::WriteData()
     len = send(m_iSocketFd, buff, m_vWriterBuffer.size(), 0);
     if(len < 0)
     {
+        ERROR("send data error");
         ErrorOrCloseFd();
         return;
     }
+    DEBUG(to_string(len));
     //删除已发送字节
     m_vWriterBuffer.erase(m_vWriterBuffer.begin(), m_vWriterBuffer.begin()+len*sizeof(char));
 

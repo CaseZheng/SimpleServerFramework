@@ -7,12 +7,16 @@ bool CPbDealModel::DealPacket(boost::shared_ptr<CSocketHandle> &pSocketHandle,
             boost::shared_ptr<IPacketModel> &pInPacketModel)
 {
     DEBUG("=========== Deal Start ============");
-    CPbInPacketModel *pPbInPacketModel = dynamic_cast<CPbInPacketModel*>(pInPacketModel.get());
-    PrintPackageInfo(pPbInPacketModel);
+    CPbInPacketModel *pPbInPacket = dynamic_cast<CPbInPacketModel*>(pInPacketModel.get());
+    PrintPackageInfo(pPbInPacket);
 
-    //boost::shared_ptr<IPacketModel> pOutPacketModel(CMainConf::GetOutPacketModel());
-    //CPbOutPacketModel *pPbOutPacketModel = dynamic_cast<CPbOutPacketModel*>(pOutPacketModel.get());
-    //pSocketHandle->WritePacket(pOutPacketModel);
+    boost::shared_ptr<IPacketModel> pOutPacketModel(CMainConf::GetOutPacketModel());
+    CPbOutPacketModel *pPbOutPacket = dynamic_cast<CPbOutPacketModel*>(pOutPacketModel.get());
+    pPbOutPacket->set_sign_method(basic_protocol::PbBasicPackage::MD5);
+    pPbOutPacket->set_signature("signature");
+    pPbOutPacket->set_boby("hello client");
+
+    pSocketHandle->WritePacket(pOutPacketModel);
 
     DEBUG("=========== Deal End ============");
     return true;

@@ -14,14 +14,14 @@ using namespace basic_protocol;
 class CPbInPacketModel : public IPacketModel, public PbBasicPackage
 {
 public:
-    CPbInPacketModel() {}
+    CPbInPacketModel();
     virtual ~CPbInPacketModel() {}
 };
 
 class CPbOutPacketModel : public IPacketModel, public PbBasicPackage
 {
 public:
-    CPbOutPacketModel() {}
+    CPbOutPacketModel();
     virtual ~CPbOutPacketModel() {}
 };
 

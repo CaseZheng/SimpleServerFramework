@@ -1,4 +1,5 @@
 #include <boost/shared_ptr.hpp>
+#include <csignal>
 
 #include "main_conf.h"
 #include "frame.h"

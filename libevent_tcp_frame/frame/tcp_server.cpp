@@ -1,4 +1,5 @@
 #include <event2/event.h>
+#include <arpa/inet.h>
 
 #include "configure.h"
 #include "main_conf.h"
