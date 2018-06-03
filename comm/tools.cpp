@@ -54,7 +54,7 @@ string tools::PrintHex(const vector<char>& buff)
         {
            ss << "0x";
         }
-        ss << setfill('0') << setw(2) << hex << (unsigned)buff[i];
+        ss << setfill('0') << setw(2) << setiosflags(ios::uppercase) << hex << (int)(*((unsigned char*)(&buff[i])));
         if(i%4 == 3)
         {
             ss << "  ";
