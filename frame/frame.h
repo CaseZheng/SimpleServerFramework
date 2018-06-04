@@ -12,6 +12,7 @@ public:
 
     virtual bool Init(const string &strServerName, const string &strConfPath)=0;
     virtual bool Run()=0;
+    virtual bool Exit()=0;
 private:
     IFrame(const IFrame&);
     IFrame& operator=(const IFrame&);
@@ -30,6 +31,7 @@ public:
 
     virtual bool Init(const string &strServerName, const string &strConfPath);
     virtual bool Run();
+    virtual bool Exit();
 };
 
 #endif

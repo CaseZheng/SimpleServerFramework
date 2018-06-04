@@ -6,7 +6,25 @@
 #include "log.h"
 
 using namespace std;
-using boost::shared_ptr;
+
+static boost::shared_ptr<CFrame> gFrame;
+
+void SignalHandler(int signalNum)
+{
+    if(SIGTERM == signalNum)
+    {
+        DEBUG("signalNum SIGTERM");
+        if(NULL==gFrame || !gFrame->Exit())
+        {
+            DEBUG("gFrame is NULL");
+            exit(0);
+        }
+    }
+    else 
+    {
+        DEBUG("Invalid signalNum:" + to_string(signalNum));
+    }
+}
 
 int main()
 {
@@ -18,15 +36,15 @@ int main()
         return -1;
     }
 
-    boost::shared_ptr<CFrame> pFrame(CMainConf::GetFrame());
-    if(NULL == pFrame)
+    gFrame.reset(CMainConf::GetFrame());
+    if(NULL == gFrame)
     {
         std::cerr << "Function failed, CMainConf::GetFrame" << std::endl;
         return -1;
     }
-    if(!pFrame->Init(strServerName, strConfPath))
+    if(!gFrame->Init(strServerName, strConfPath))
     {
-        std::cerr << "Function failed, pFrame->Init" << std::endl;
+        std::cerr << "Function failed, gFrame->Init" << std::endl;
         return -1;
     }
 
@@ -34,17 +52,18 @@ int main()
     daemon(1, 0);
 
     //过滤信号
-    signal(SIGALRM, SIG_IGN);
-    signal(SIGTERM, SIG_IGN);
-    signal(SIGPIPE, SIG_IGN);
-    signal(SIGHUP,  SIG_IGN);
-    signal(SIGINT,  SIG_IGN);
-    signal(SIGQUIT, SIG_IGN);
-    signal(SIGCHLD, SIG_IGN);
+    signal(SIGALRM, SignalHandler);
+    signal(SIGPIPE, SignalHandler);
+    signal(SIGHUP,  SignalHandler);
+    signal(SIGINT,  SignalHandler);
+    signal(SIGQUIT, SignalHandler);
+    signal(SIGCHLD, SignalHandler);
+    signal(SIGTERM, SignalHandler);
+    //signal(SIGKILL, SignalHandler); //SIGKILL信号无法不捕获
 
-    if(!pFrame->Run())
+    if(!gFrame->Run())
     {
-        ERROR("Function failed, pFrame->Run");
+        ERROR("Function failed, gFrame->Run");
         return -1;
     }
 

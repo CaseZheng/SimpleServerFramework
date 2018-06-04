@@ -26,6 +26,7 @@ bool CLibeventFrame::Init(const string &strServerName, const string &strConfPath
 
 bool CLibeventFrame::Run()
 {
+    DEBUG("================ Run Start =============");
     if(!CFrame::Run())
     {
         ERROR("Function failure CFrame::Run");
@@ -37,6 +38,7 @@ bool CLibeventFrame::Run()
         ERROR("event_base_dispatch failure");
         return false;
     }
+    DEBUG("================ Run End =============");
     return true;
 }
 
@@ -54,4 +56,16 @@ void CLibeventFrame::LibeventLog(int severity, const char *msg)
     {
         ERROR(msg);
     }
+}
+
+bool CLibeventFrame::Exit()
+{
+    DEBUG("event_base_loopexit");
+    if(0 != event_base_loopexit(m_pEventBase.get(), NULL))
+    //if(0 != event_base_loopbreak(m_pEventBase.get()))
+    {
+        DEBUG("event_base_loopexit error");
+        return CFrame::Exit();
+    }
+    return true;
 }

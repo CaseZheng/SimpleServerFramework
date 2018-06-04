@@ -19,6 +19,7 @@ public:
 
     virtual bool Init(const string &strServerName, const string &strConfPath);
     virtual bool Run();
+    virtual bool Exit();
 
 protected:
     boost::shared_ptr<struct event_base> m_pEventBase;

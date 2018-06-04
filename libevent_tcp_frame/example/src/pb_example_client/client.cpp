@@ -64,8 +64,6 @@ int main(int argc, char *argv[])
         cout<<"write_some error: "<<boost::system::system_error(error).what()<<endl;
     }
 
-    sleep(2);
-
 	buf.clear();
     buf.resize(1000);
     size_t len = sock.read_some(boost::asio::buffer(buf), error);
@@ -104,6 +102,5 @@ int main(int argc, char *argv[])
     ss << "signature:"   << pPbClientInPacket->signature()   << "  ";
     cout<<(ss.str())<<endl;
 
-    sleep(2);
     return 0;
 }

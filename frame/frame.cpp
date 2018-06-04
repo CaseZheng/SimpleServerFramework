@@ -29,3 +29,9 @@ bool CFrame::Run()
     return true;
 }
 
+bool CFrame::Exit()
+{
+    DEBUG("Exit");
+    exit(0);
+    return true;
+}
