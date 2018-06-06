@@ -6,6 +6,10 @@ CSocketHandle::CSocketHandle(int sock, const string &strClientIp,
         boost::shared_ptr<CTcpServer> &pTcpServer)
     : m_iSocketFd(sock), m_strClientIp(strClientIp), m_pTcpServer(pTcpServer)
 {
+#ifdef EVBUFFER 
+    m_vReadBuffer.reset(evbuffer_new(), evbuffer_free);
+    m_vWriterBuffer.reset(evbuffer_new(), evbuffer_free);
+#endif
 }
 
 
@@ -37,7 +41,15 @@ void CSocketHandle::ReadData()
     int len = 0;
     while((len = recv(m_iSocketFd, &buff, sizeof(buff), 0)) > 0)
     {
+#ifdef EVBUFFER
+        if(0 != evbuffer_add(m_vReadBuffer.get(), buff, len))
+        {
+            ERROR("evbuffer_add error");
+            return ;
+        }
+#else
         m_vReadBuffer.insert(m_vReadBuffer.end(), buff, (buff+(len*(sizeof(char))) ));
+#endif
     }
     if(len < 0)
     {
@@ -66,6 +78,29 @@ void CSocketHandle::ReadData()
 
 void CSocketHandle::WriteData()
 {
+#ifdef EVBUFFER
+    if(0 == evbuffer_get_length(m_vWriterBuffer.get()))
+    {
+        DEBUG("buff is empty");
+        return;
+    }
+    int len=0;
+    if((len = evbuffer_write(m_vWriterBuffer.get(), m_iSocketFd)) < 0)
+    {
+        ERROR("send data error");
+        ErrorOrCloseFd();
+        return;
+    }
+    DEBUG(to_string(len));
+    if(0 != evbuffer_get_length(m_vWriterBuffer.get()))
+    {
+        if(0 != event_add(m_pWriteEvent.get(), NULL))
+        {
+            ERROR("event_add error");
+        }
+    }
+
+#else
     if(m_vWriterBuffer.empty())
     {
         DEBUG("buff is empty");
@@ -92,6 +127,7 @@ void CSocketHandle::WriteData()
             ERROR("event_add error");
         }
     }
+#endif
 }
 
 void CSocketHandle::ReadPacket()

@@ -1,0 +1,19 @@
+<xml>
+    <server>
+        <id>100004</id>
+        <ip>0.0.0.0</ip>
+        <port>9999</port>
+    </server>
+    <mysql>
+        <host></host>
+        <port></port>
+        <username></username>
+        <passwd></passwd>
+    </mysql>
+    <redis>
+        <host></host>
+        <port></port>
+        <auth>redis_auth</auth>
+    </redis>
+    <logpath>./log/</logpath>
+</xml>

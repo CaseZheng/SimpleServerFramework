@@ -11,8 +11,13 @@ public:
     IProtocol() {}
     virtual ~IProtocol() {}
     
+#ifdef EVBUFFER
+    virtual bool Unpacking(shared_ptr<struct evbuffer> &buff, IPacketModel *packet) = 0;
+    virtual bool Packets(shared_ptr<struct evbuffer>> &buff, IPacketModel *packet) = 0;
+#else 
     virtual bool Unpacking(vector<char> &buff, IPacketModel *packet) = 0;
     virtual bool Packets(vector<char> &buff, IPacketModel *packet) = 0;
+#endif
 };
 
 #endif

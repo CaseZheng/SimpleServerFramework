@@ -38,8 +38,15 @@ private:
     string m_strClientIp;
     boost::shared_ptr<struct event> m_pReadEvent;
     boost::shared_ptr<struct event> m_pWriteEvent;
+
+#ifdef EVBUFFER
+    boost::shared_ptr<struct evbuffer> m_vReadBuffer;
+    boost::shared_ptr<struct evbuffer> m_vWriterBuffer;
+#else
     vector<char> m_vReadBuffer;
     vector<char> m_vWriterBuffer;
+#endif
+
 
     boost::weak_ptr<CTcpServer> m_pTcpServer;
 };
