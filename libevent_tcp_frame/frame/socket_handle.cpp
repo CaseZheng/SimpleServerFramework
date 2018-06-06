@@ -37,20 +37,24 @@ void CSocketHandle::SetReadEvent(boost::shared_ptr<struct event> &pEvent)
 
 void CSocketHandle::ReadData()
 {
-    char buff[5];
     int len = 0;
+#ifdef EVBUFFER
+    len = evbuffer_read(m_vReadBuffer.get(), m_iSocketFd, -1);
+    //while((len = recv(m_iSocketFd, &buff, sizeof(buff), 0)) > 0)
+    //{
+    //    if(0 != evbuffer_add(m_vReadBuffer.get(), buff, len))
+    //    {
+    //        ERROR("evbuffer_add error");
+    //        return ;
+    //    }
+    //}
+#else
+    char buff[5];
     while((len = recv(m_iSocketFd, &buff, sizeof(buff), 0)) > 0)
     {
-#ifdef EVBUFFER
-        if(0 != evbuffer_add(m_vReadBuffer.get(), buff, len))
-        {
-            ERROR("evbuffer_add error");
-            return ;
-        }
-#else
         m_vReadBuffer.insert(m_vReadBuffer.end(), buff, (buff+(len*(sizeof(char))) ));
-#endif
     }
+#endif
     if(len < 0)
     {
         if(errno==EAGAIN || errno==EWOULDBLOCK || errno==EINTR)
@@ -59,6 +63,7 @@ void CSocketHandle::ReadData()
         }
         else 
         {
+            DEBUG(to_string(m_iSocketFd) + " error");
             ErrorOrCloseFd();
             boost::shared_ptr<CTcpServer> pTcpServer = m_pTcpServer.lock();
             pTcpServer->EraseSocketHandleBySocket(m_iSocketFd);
@@ -66,6 +71,7 @@ void CSocketHandle::ReadData()
     }
     else if(0 == len)
     {
+        DEBUG(to_string(m_iSocketFd) + " error");
         ErrorOrCloseFd();
         boost::shared_ptr<CTcpServer> pTcpServer = m_pTcpServer.lock();
         pTcpServer->EraseSocketHandleBySocket(m_iSocketFd);
