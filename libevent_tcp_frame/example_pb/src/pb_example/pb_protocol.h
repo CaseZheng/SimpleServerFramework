@@ -11,8 +11,13 @@ public:
     CPbProtocol() {}
     virtual ~CPbProtocol() {}
 
+#ifdef EVBUFFER
+    virtual bool Unpacking(boost::shared_ptr<struct evbuffer> &buff, IPacketModel *packet);
+    virtual bool Packets(boost::shared_ptr<struct evbuffer> &buff, IPacketModel *packet);
+#else 
     virtual bool Unpacking(vector<char> &buff, IPacketModel *packet);
     virtual bool Packets(vector<char> &buff, IPacketModel *packet);
+#endif
 };
 
 #endif

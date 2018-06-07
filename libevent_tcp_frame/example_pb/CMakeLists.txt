@@ -15,6 +15,8 @@ SET(CMAKE_BUILD_TYPE "Debug")
 SET(CMAKE_CXX_FLAGS_DEBUG "$ENV{CXXFLAGS} -O0 -Wall -g -ggdb -std=c++11 -DBOOST_LOG_DYN_LINK")
 SET(CMAKE_CXX_FLAGS_RELEASE "$ENV{CXXFLAGS} -O3 -Wall -std=c++11 -DBOOST_LOG_DYN_LINK")
 
+#ADD_DEFINITIONS(-DEVBUFFER)
+
 FIND_PACKAGE(Protobuf REQUIRED)
 if(PROTOBUF_FOUND)
     message(STATUS "protobuf library found")
@@ -67,7 +69,7 @@ LINK_DIRECTORIES(/usr/lib64)
 LINK_DIRECTORIES(/usr/local/lib)
 
 #example最后生成的可执行文件名 赋值给BIN_NAME变量
-SET(BIN_NAME libevent_tcp_example)
+SET(BIN_NAME libevent_tcp_example_pb)
 
 #需要链接的动态库
 SET(SO_LIST pthread boost_system boost_filesystem boost_log_setup boost_log boost_thread event event_core event_extra jsoncpp hiredis)
