@@ -16,6 +16,8 @@ public:
             string &strRetCode, 
             string &strRetInfo,
             Json::Value &jData);
+
+    static bool DealMQMsg(const string &strMsg);
 };
 
 #endif

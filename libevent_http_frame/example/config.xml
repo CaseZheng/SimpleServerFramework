@@ -10,6 +10,13 @@
         <username></username>
         <passwd></passwd>
     </mysql>
+    <rabbitmq>
+        <host>127.0.0.1</host>
+        <port>5672</port>
+        <username>root</username>
+        <passwd>123456</passwd>
+    </rabbitmq>
+
     <redis>
         <host></host>
         <port></port>

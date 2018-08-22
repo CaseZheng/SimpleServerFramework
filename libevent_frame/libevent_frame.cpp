@@ -9,8 +9,12 @@ bool CLibeventFrame::Init(const string &strServerName, const string &strConfPath
         return false;
     }
 
+#ifdef LIBEVENT_LOG
     event_enable_debug_logging(EVENT_DBG_ALL);
-    //event_enable_debug_logging(EVENT_DBG_NONE);
+#else
+    event_enable_debug_logging(EVENT_DBG_NONE);
+#endif
+
     event_set_log_callback(CLibeventFrame::LibeventLog);
 
     m_pEventBase.reset(event_base_new(), event_base_free);

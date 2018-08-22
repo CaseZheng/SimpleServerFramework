@@ -17,6 +17,7 @@ SET(CMAKE_CXX_FLAGS_RELEASE "$ENV{CXXFLAGS} -O3 -Wall -std=c++11 -DBOOST_LOG_DYN
 
 #源文件
 AUX_SOURCE_DIRECTORY(../../comm                 SOURCE_LIST)
+AUX_SOURCE_DIRECTORY(../../comm/rabbitmq        SOURCE_LIST)
 AUX_SOURCE_DIRECTORY(../../comm/xredis          SOURCE_LIST)
 AUX_SOURCE_DIRECTORY(../../frame                SOURCE_LIST)
 AUX_SOURCE_DIRECTORY(../frame                   SOURCE_LIST)
@@ -31,6 +32,7 @@ MESSAGE(STATUS "${SOURCE_LIST}")
 
 #头文件搜索目录
 INCLUDE_DIRECTORIES(../../comm)
+INCLUDE_DIRECTORIES(../../comm/rabbitmq)
 INCLUDE_DIRECTORIES(../../comm/xredis)
 INCLUDE_DIRECTORIES(../../frame)
 INCLUDE_DIRECTORIES(../frame)
@@ -48,12 +50,13 @@ INCLUDE_DIRECTORIES(/usr/include/hiredis)
 LINK_DIRECTORIES(/usr/lib)
 LINK_DIRECTORIES(/usr/lib64)
 LINK_DIRECTORIES(/usr/local/lib)
+LINK_DIRECTORIES(/usr/local/lib64)
 
 #example最后生成的可执行文件名 赋值给BIN_NAME变量
 SET(BIN_NAME libevent_http_example)
 
 #需要链接的动态库
-SET(SO_LIST pthread boost_system boost_filesystem boost_log_setup boost_log boost_thread event event_core event_extra jsoncpp hiredis)
+SET(SO_LIST pthread boost_system boost_filesystem boost_log_setup boost_log boost_thread event event_core event_extra jsoncpp hiredis rabbitmq)
 
 MESSAGE(STATUS "${SO_LIST}")
 

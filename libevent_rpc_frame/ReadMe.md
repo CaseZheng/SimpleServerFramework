@@ -2,7 +2,6 @@
 ```
 {
     "_head":{
-        "_interface":"test",
         "_timestamps":"12345678",
         "_invokeId":"123456",
         "_version":"1.0.1",
@@ -23,7 +22,6 @@
     },
     "_head":{
         "_callerServerId":"9999",
-        "_interface":"test",
         "_invokeId":"123456",
         "_timestamps":"12345678",
         "_version":"1.0.1"

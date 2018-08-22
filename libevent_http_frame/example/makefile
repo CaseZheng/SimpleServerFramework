@@ -5,6 +5,7 @@ COMM_DIR = ../../comm
 SRC_DIR = ./src
 COMM_FRAME_DIR = ../../frame
 FRAME_DIR = ../frame
+RABBITMQ_DIR = ../../comm/rabbitmq
 
 
 DATA_DIR = src/data_model
@@ -17,7 +18,7 @@ BOOST_INC = /usr/include/boost
 JSON_INC = /usr/include/jsoncpp
 
 CFLAGS = -c -Wall
-#CFLAGS += -g 
+CFLAGS += -g 
 CFLAGS += -std=c++11
 CFLAGS += -fpic
 CFLAGS += -DBOOST_LOG_DYN_LINK
@@ -34,8 +35,8 @@ CFLAGS += -I$(PACKET_DIR)
 CFLAGS += -I$(BOOST_LOG_INC)
 CFLAGS += -I$(BOOST_INC)
 CFLAGS += -I$(JSON_INC)
+CFLAGS += -I$(RABBITMQ_DIR)
  
-
 CXXFLAGS = $(CFLAGS)
 
 LFLAGS += -L/usr/lib64 -lpthread
@@ -49,18 +50,21 @@ LFLAGS += -L/usr/lib64 -ljsoncpp
 LFLAGS += -L/usr/local/lib -levent
 LFLAGS += -L/usr/local/lib -levent_core
 LFLAGS += -L/usr/local/lib -levent_extra
+LFLAGS += -L/usr/local/lib64 -lrabbitmq
 #LFLAGS += -L/usr/lib -lboost_date_time
 
 HEADS = $(wildcard $(SRC_DIR)/*.h)
 HEADS += $(wildcard $(COMM_FRAME_DIR)/*.h)
 HEADS += $(wildcard $(FRAME_DIR)/*.h)
 HEADS += $(wildcard $(COMM_DIR)/*.h)
+HEADS += $(wildcard $(RABBITMQ_DIR)/*.h)
 HEADS += $(wildcard $(DATA_DIR)/*.h)
 HEADS += $(wildcard $(LOGIC_DIR)/*.h)
 HEADS += $(wildcard $(PUBLIC_DIR)/*.h)
 HEADS += $(wildcard $(PACKET_DIR)/*.h)
 
 SOURCES = $(wildcard $(COMM_DIR)/*.cpp)
+SOURCES += $(wildcard $(RABBITMQ_DIR)/*.cpp)
 SOURCES += $(wildcard $(DATA_DIR)/*.cpp)
 SOURCES += $(wildcard $(LOGIC_DIR)/*.cpp)
 SOURCES += $(wildcard $(PUBLIC_DIR)/*.cpp)
