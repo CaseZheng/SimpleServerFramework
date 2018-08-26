@@ -218,17 +218,17 @@ bool CRabbitMQ::exchangePublish(const string &strExchangeName, const string &str
 bool CRabbitMQ::queueSubscribe(const string &strQueueName, string &strMsg, 
             struct timeval *pTimeVal, SQueueSubInfo *pQueueSubInfo)
 {
-    return queueSubscribe(strQueueName, strMsg, NULL, pTimeVal, pQueueSubInfo);
+    return subscribe(strQueueName, strMsg, NULL, pTimeVal, pQueueSubInfo);
 }
 
 bool CRabbitMQ::queueSubscribe(const string &strQueueName, bool(*dealFun)(const string &),
             struct timeval *pTimeVal, SQueueSubInfo *pQueueSubInfo)
 {
     string strMsg;
-    return queueSubscribe(strQueueName, strMsg, dealFun, pTimeVal, pQueueSubInfo);
+    return subscribe(strQueueName, strMsg, dealFun, pTimeVal, pQueueSubInfo);
 }
 
-bool CRabbitMQ::queueSubscribe(const string &strQueueName, string &strMsg, bool(*dealFun)(const string &),
+bool CRabbitMQ::subscribe(const string &strQueueName, string &strMsg, bool(*dealFun)(const string &),
             struct timeval *pTimeVal, SQueueSubInfo *pQueueSubInfo)
 {
     static SQueueSubInfo defaultQueueSubInfo;

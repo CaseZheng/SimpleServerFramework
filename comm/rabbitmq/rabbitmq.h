@@ -135,7 +135,7 @@ private:
     bool destroyConnect();
     bool amqpRpcReplyJudeg(const amqp_rpc_reply_t &r);
 
-    bool queueSubscribe(const string &strQueueName, string &strMsg, bool(*dealFun)(const string &),
+    bool subscribe(const string &strQueueName, string &strMsg, bool(*dealFun)(const string &),
             struct timeval *pTimeVal, SQueueSubInfo *pQueueSubInfo);
 
 
