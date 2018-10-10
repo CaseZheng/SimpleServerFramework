@@ -10,15 +10,11 @@
     }
 
 CRabbitMQ::CRabbitMQ(const string &strHostName, int iPort, const string &strUserName, const string &strPassword, const string &strVHost) 
-    : m_socket(NULL), 
-        m_conn(NULL), 
-        m_strHostName(strHostName), 
+    : m_strHostName(strHostName), 
         m_iPort(iPort), 
         m_strUserName(strUserName), 
         m_strPassword(strPassword), 
-        m_strVHost(strVHost),
-        m_iChannelIdMax(0),
-        m_iFrameMax(AMQP_DEFAULT_FRAME_SIZE)
+        m_strVHost(strVHost)
 {
 }
 

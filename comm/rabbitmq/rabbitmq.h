@@ -140,17 +140,17 @@ private:
 
 
 protected:
-    amqp_socket_t * m_socket;
-    amqp_connection_state_t m_conn;
+    amqp_socket_t * m_socket = NULL;
+    amqp_connection_state_t m_conn = NULL;
 
 private:
-    string   m_strHostName;
-    int      m_iPort;
-    string   m_strUserName;
-    string   m_strPassword;
-    string   m_strVHost;
-    int      m_iChannelIdMax;
-    int      m_iFrameMax;
+    string   m_strHostName{""};
+    int      m_iPort{0};
+    string   m_strUserName{""};
+    string   m_strPassword{""};
+    string   m_strVHost{""};
+    int      m_iChannelIdMax{0};
+    int      m_iFrameMax{AMQP_DEFAULT_FRAME_SIZE};
 
     map<int, SChannelInfo> m_mChannelInfo;
 };

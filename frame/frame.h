@@ -7,7 +7,7 @@ using namespace std;
 class IFrame 
 {
 public:
-    IFrame(){}
+    IFrame() : m_strServerName{""}, m_strConfPath{""} {}
     virtual ~IFrame(){}
 
     virtual bool Init(const string &strServerName, const string &strConfPath)=0;
