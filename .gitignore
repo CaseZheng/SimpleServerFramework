@@ -42,3 +42,5 @@ CMakeFiles
 Makefile
 cmake_install.cmake
 *.files
+
+libevent_http_example
