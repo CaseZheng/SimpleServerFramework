@@ -18,7 +18,6 @@ public:
     static bool InitConf(string &strServerName, string &strConfPath)
     {
         strServerName = tools::GetProcessName();
-        strConfPath = "./config.xml";
 
         return true;
     }

@@ -18,6 +18,10 @@ string CConfigure::m_strRabbitMQp = "";
 
 bool CConfigure::InitConf(const string &strConfPath)
 {
+    if(strConfPath.empty())
+    {
+        strConfPath = "/data/config/config.xml";
+    }
     boost::property_tree::ptree xmlTree;
     try
     {
