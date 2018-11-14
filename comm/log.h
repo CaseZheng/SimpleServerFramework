@@ -75,17 +75,26 @@ class CLog
 public:
     static void SetFilter(severity_level filterLevel);
     static bool InitLog(const string &strLogName);
-    static void log_print(const severity_level &level, const string &msg);
 };
 
-#define LOG_PRINT(level, msg) CLog::log_print((level), \
-        (tools::GetFileNameFromFilePath(__FILE__)+"|"+__FUNCTION__+"|"+to_string(__LINE__)+"|"+(msg)))
+#define LOG_PRINT(level, msg) \
+    do { \
+        std::stringstream __ss_msg; \
+        __ss_msg << msg; \
+        BOOST_LOG_SEV(my_logger::get(), level) << tools::GetFileNameFromFilePath(__FILE__) << "|" << __FUNCTION__ << "|" << to_string(__LINE__) << "|" << __ss_msg.str(); \
+    } while (0)
 
-#define INFO(msg)       LOG_PRINT(info, (msg))
-#define DEBUG(msg)      LOG_PRINT(debug, (msg))
-#define WARNING(msg)    LOG_PRINT(warning, (msg))
-#define ERROR(msg)      LOG_PRINT(error, (msg))
-#define FATAL(msg)      LOG_PRINT(fatal, (msg))
-#define REPORT(msg)     CLog::log_print(report, (msg))
+#define INFO(msg)       LOG_PRINT(info, msg)
+#define DEBUG(msg)      LOG_PRINT(debug, msg)
+#define WARNING(msg)    LOG_PRINT(warning, msg)
+#define ERROR(msg)      LOG_PRINT(error, msg)
+#define FATAL(msg)      LOG_PRINT(fatal, msg)
+#define REPORT(msg) \
+    do { \
+        std::stringstream __ss_msg; \
+        __ss_msg << msg; \
+        BOOST_LOG_SEV(my_logger::get(), level) << __ss_msg.str(); \
+    } while (0)
+
 
 #endif

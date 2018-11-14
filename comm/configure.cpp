@@ -18,14 +18,15 @@ string CConfigure::m_strRabbitMQp = "";
 
 bool CConfigure::InitConf(const string &strConfPath)
 {
-    if(strConfPath.empty())
+    string strTmpConfPath = strConfPath;
+    if(strTmpConfPath.empty())
     {
-        strConfPath = "/data/config/config.xml";
+        strTmpConfPath = "/data/config/config.xml";
     }
     boost::property_tree::ptree xmlTree;
     try
     {
-    read_xml(strConfPath, xmlTree);
+    read_xml(strTmpConfPath, xmlTree);
 
     //m_strIp      = xmlTree.get<string>("xml.server.ip");   //如果xml.server.ip不存在 则抛出异常
     m_strId        = xmlTree.get("xml.server.id", "");

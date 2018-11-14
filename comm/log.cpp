@@ -65,9 +65,3 @@ bool CLog::InitLog(const string &strLogName)
 
     return true;
 }
-
-void CLog::log_print(const severity_level &level, const string &msg)
-{
-    BOOST_LOG_SEV(my_logger::get(), level) << msg;
-}
-

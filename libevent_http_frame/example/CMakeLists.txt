@@ -19,6 +19,7 @@ SET(CMAKE_CXX_FLAGS_RELEASE "$ENV{CXXFLAGS} -O3 -Wall -std=c++11 -DBOOST_LOG_DYN
 AUX_SOURCE_DIRECTORY(../../comm                 SOURCE_LIST)
 AUX_SOURCE_DIRECTORY(../../comm/rabbitmq        SOURCE_LIST)
 AUX_SOURCE_DIRECTORY(../../comm/xredis          SOURCE_LIST)
+AUX_SOURCE_DIRECTORY(../../third_party/kafka    SOURCE_LIST)
 AUX_SOURCE_DIRECTORY(../../frame                SOURCE_LIST)
 AUX_SOURCE_DIRECTORY(../frame                   SOURCE_LIST)
 AUX_SOURCE_DIRECTORY(../../libevent_frame       SOURCE_LIST)
@@ -34,6 +35,7 @@ MESSAGE(STATUS "${SOURCE_LIST}")
 INCLUDE_DIRECTORIES(../../comm)
 INCLUDE_DIRECTORIES(../../comm/rabbitmq)
 INCLUDE_DIRECTORIES(../../comm/xredis)
+INCLUDE_DIRECTORIES(../../third_party/kafka)
 INCLUDE_DIRECTORIES(../../frame)
 INCLUDE_DIRECTORIES(../frame)
 INCLUDE_DIRECTORIES(../../libevent_frame)
@@ -56,7 +58,7 @@ LINK_DIRECTORIES(/usr/local/lib64)
 SET(BIN_NAME libevent_http_example)
 
 #需要链接的动态库
-SET(SO_LIST pthread boost_system boost_filesystem boost_log_setup boost_log boost_thread event event_core event_extra jsoncpp hiredis rabbitmq)
+SET(SO_LIST pthread boost_system boost_filesystem boost_log_setup boost_log boost_thread event event_core event_extra jsoncpp hiredis rabbitmq ssl crypto dl z)
 
 MESSAGE(STATUS "${SO_LIST}")
 
@@ -65,6 +67,13 @@ ADD_EXECUTABLE(${BIN_NAME} ${SOURCE_LIST})
 
 #添加可执行文件所需要的库
 TARGET_LINK_LIBRARIES(${BIN_NAME} ${SO_LIST})
+
+FIND_LIBRARY(KAFKA_LIB++ librdkafka++.a ../../third_party/kafka/lib)
+FIND_LIBRARY(KAFKA_LIB librdkafka.a ../../third_party/kafka/lib)
+MESSAGE(STATUS "${KAFKA_LIB++}  ${KAFKA_LIB}")
+#需要链接的静态库
+TARGET_LINK_LIBRARIES(${BIN_NAME} ${KAFKA_LIB++})
+TARGET_LINK_LIBRARIES(${BIN_NAME} ${KAFKA_LIB})
 
 #设置执行文件输出目录
 SET(EXECUTABLE_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/bin)
