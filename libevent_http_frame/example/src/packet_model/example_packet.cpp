@@ -2,6 +2,8 @@
 #include <evhttp.h>
 #include "log.h"
 #include "rdkafkacpp.h"
+#include <ctime>
+#include "configure.h"
 
 class KafakaEventCb : public RdKafka::EventCb 
 {
@@ -47,7 +49,7 @@ bool CExamplePacket::DealPacket()
 
 
     std::string errstr;
-    //gConf->set("metadata.broker.list", "", errstr);
+    gConf->set("metadata.broker.list", CConfigure::GetKafkaHostPort(), errstr);
     KafakaEventCb kafakaEventCb;
     gConf->set("event_cb", &kafakaEventCb, errstr);
 
@@ -72,9 +74,9 @@ bool CExamplePacket::DealPacket()
         ERROR("Failed to create topic: " << errstr);
         return false;
     }
-	string strMsg = "hello Kafak";
-	RdKafka::ErrorCode resp = producer->produce(topic, 1,
-          RdKafka::Producer::RK_MSG_COPY /* Copy payload */,
+	string strMsg = "hello Kafak" + to_string(time(NULL));
+	RdKafka::ErrorCode resp = producer->produce(topic, RdKafka::Topic::PARTITION_UA,
+          RdKafka::Producer::RK_MSG_COPY,
           const_cast<char *>(strMsg.c_str()), strMsg.size(),
           NULL, NULL);
   	if(resp != RdKafka::ERR_NO_ERROR)

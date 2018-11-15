@@ -4,16 +4,25 @@
 
 bool CFrame::Init(const string &strServerName, const string &strConfPath)
 {
-    if(strServerName.empty() || strConfPath.empty())
+    if(strServerName.empty())
     {
-        return false;
+        m_strServerName = tools::GetProcessName();
+    }
+    else 
+    {
+        m_strServerName = strServerName;
+    }
+    if(strConfPath.empty())
+    {
+        m_strConfPath = "/data/config/config.xml";
+    }
+    else 
+    {
+        m_strConfPath = strConfPath;
     }
 
-    m_strServerName = strServerName;
-    m_strConfPath   = strConfPath;
-
     //初始化配置文件
-    CConfigure::InitConf(strConfPath);
+    CConfigure::InitConf(m_strConfPath);
 
     //初始化日志
     CLog::InitLog(m_strServerName);
