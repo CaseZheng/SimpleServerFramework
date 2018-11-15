@@ -46,6 +46,7 @@ INCLUDE_DIRECTORIES(./src/public_model)
 INCLUDE_DIRECTORIES(./src/packet_model)
 INCLUDE_DIRECTORIES(/usr/include/jsoncpp)
 INCLUDE_DIRECTORIES(/usr/include/hiredis)
+INCLUDE_DIRECTORIES(/usr/include)
 
 
 #链接库搜索目录

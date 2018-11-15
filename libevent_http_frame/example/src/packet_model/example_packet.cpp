@@ -4,6 +4,7 @@
 #include "rdkafkacpp.h"
 #include <ctime>
 #include "configure.h"
+#include <boost/shared_ptr.hpp>
 
 class KafakaEventCb : public RdKafka::EventCb 
 {
@@ -44,8 +45,8 @@ public:
 
 bool CExamplePacket::DealPacket()
 {
-    RdKafka::Conf *gConf = RdKafka::Conf::create(RdKafka::Conf::CONF_GLOBAL); 
-    RdKafka::Conf *tConf = RdKafka::Conf::create(RdKafka::Conf::CONF_TOPIC);
+    boost::shared_ptr<RdKafka::Conf> gConf(RdKafka::Conf::create(RdKafka::Conf::CONF_GLOBAL)); 
+    boost::shared_ptr<RdKafka::Conf> tConf(RdKafka::Conf::create(RdKafka::Conf::CONF_TOPIC));
 
 
     std::string errstr;
@@ -58,37 +59,40 @@ bool CExamplePacket::DealPacket()
     gConf->set("dr_cb", &kafkaDeliveryReportCb, errstr);
 
     /* Create producer using accumulated global configuration. */
-    RdKafka::Producer *producer = RdKafka::Producer::create(gConf, errstr);
+    boost::shared_ptr<RdKafka::Producer> producer(RdKafka::Producer::create(gConf.get(), errstr));
     if(!producer)
     {
         ERROR("Failed to create producer: " << errstr);
         return false;
     }
-    DEBUG("% Created producer " << producer->name());
+    DEBUG("Created producer: " << producer->name());
 
     string strTopic = "testTopic";
     /* Create topic handle. */
-    RdKafka::Topic *topic = RdKafka::Topic::create(producer, strTopic, tConf, errstr);
+    boost::shared_ptr<RdKafka::Topic> topic(RdKafka::Topic::create(producer.get(), 
+                                                    strTopic, tConf.get(), errstr));
     if(!topic)
     {
         ERROR("Failed to create topic: " << errstr);
         return false;
     }
 	string strMsg = "hello Kafak" + to_string(time(NULL));
-	RdKafka::ErrorCode resp = producer->produce(topic, RdKafka::Topic::PARTITION_UA,
+	RdKafka::ErrorCode resp = producer->produce(topic.get(), RdKafka::Topic::PARTITION_UA,
           RdKafka::Producer::RK_MSG_COPY,
           const_cast<char *>(strMsg.c_str()), strMsg.size(),
           NULL, NULL);
   	if(resp != RdKafka::ERR_NO_ERROR)
 	{
-		ERROR("% Produce failed: " << RdKafka::err2str(resp));
+		ERROR("Produce failed: " << RdKafka::err2str(resp));
 		return false;
 	}
 	else
 	{
-		DEBUG("% Produced message (" << strMsg.size() << " bytes)"); 
+		DEBUG("Produced message (" << strMsg.size() << " bytes)"); 
   		producer->poll(0);
 	}
+
+    sleep(3);
 
     m_strRespCode = "0";
     m_strOut      = "hello ExamplePacket";
