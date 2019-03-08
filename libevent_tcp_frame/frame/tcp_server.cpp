@@ -109,16 +109,6 @@ void CTcpServer::EvConnListenerCb(struct evconnlistener * stener,
     pTcpServer->InsertSocketHandle(sock, pSocketHandle);
 }
 
-void CTcpServer::InsertSocketHandle(int sock, boost::shared_ptr<CSocketHandle> &pSocketHandle)
-{
-    m_mSocketHandle[sock] = pSocketHandle;
-}
-
-
-void CTcpServer::EraseSocketHandleBySocket(int sock)
-{
-    m_mSocketHandle.erase(sock);
-}
 
 void CTcpServer::SocketReadCb(int fd, short events, void *arg)
 {
@@ -159,13 +149,4 @@ void CTcpServer::SocketWriteCb(int fd, short events, void *arg)
     {
         pSocketHandle->WriteData();
     }
-}
-
-boost::shared_ptr<CSocketHandle> CTcpServer::GetSocketHandleByFd(int fd)
-{
-    if(m_mSocketHandle.find(fd) == m_mSocketHandle.end())
-    {
-        return boost::shared_ptr<CSocketHandle>();
-    }
-    return m_mSocketHandle[fd];
 }

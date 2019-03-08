@@ -2,9 +2,9 @@
 #include "log.h"
 #include "main_conf.h"
 
-CSocketHandle::CSocketHandle(int sock, const string &strClientIp, 
-        boost::shared_ptr<CTcpServer> &pTcpServer)
-    : m_iSocketFd(sock), m_strClientIp(strClientIp), m_pTcpServer(pTcpServer)
+CSocketHandle::CSocketHandle(int sock, const string &strIp, 
+        boost::shared_ptr<CSocketManage> pSocketManage)
+    : m_iSocketFd(sock), m_strIp(strIp), m_pSocketManage(pSocketManage)
 {
 #ifdef EVBUFFER 
     m_vReadBuffer.reset(evbuffer_new(), evbuffer_free);
@@ -65,16 +65,16 @@ void CSocketHandle::ReadData()
         {
             DEBUG(to_string(m_iSocketFd) + " error");
             ErrorOrCloseFd();
-            boost::shared_ptr<CTcpServer> pTcpServer = m_pTcpServer.lock();
-            pTcpServer->EraseSocketHandleBySocket(m_iSocketFd);
+            boost::shared_ptr<CSocketManage> pSocketManage = m_pSocketManage.lock();
+            pSocketManage->EraseSocketHandleBySocket(m_iSocketFd);
         }
     }
     else if(0 == len)
     {
         DEBUG(to_string(m_iSocketFd) + " error");
         ErrorOrCloseFd();
-        boost::shared_ptr<CTcpServer> pTcpServer = m_pTcpServer.lock();
-        pTcpServer->EraseSocketHandleBySocket(m_iSocketFd);
+        boost::shared_ptr<CSocketManage> pSocketManage = m_pSocketManage.lock();
+        pSocketManage->EraseSocketHandleBySocket(m_iSocketFd);
     }
     else 
     {
@@ -138,23 +138,23 @@ void CSocketHandle::WriteData()
 
 void CSocketHandle::ReadPacket()
 {
-    boost::shared_ptr<CTcpServer> pTcpServer = m_pTcpServer.lock();
+    boost::shared_ptr<CSocketManage> pSocketManage = m_pSocketManage.lock();
     do 
     {
         boost::shared_ptr<IPacketModel> pPacketModel(CMainConf::GetInPacketModel());
-        if(!pTcpServer->GetIProtocol()->Unpacking(m_vReadBuffer, pPacketModel.get()))
+        if(!pSocketManage->GetIProtocol()->Unpacking(m_vReadBuffer, pPacketModel.get()))
         {
             break;
         }
         boost::shared_ptr<CSocketHandle> pSocketHandle = shared_from_this(); 
-        pTcpServer->GetIDealModel()->DealPacket(pSocketHandle, pPacketModel);
+        pSocketManage->GetIDealModel()->DealPacket(pSocketHandle, pPacketModel);
     }while(true);
 }
 
 void CSocketHandle::WritePacket(boost::shared_ptr<IPacketModel> &pOutPacketModel)
 {
-    boost::shared_ptr<CTcpServer> pTcpServer = m_pTcpServer.lock();
-    pTcpServer->GetIProtocol()->Packets(m_vWriterBuffer, pOutPacketModel.get());
+    boost::shared_ptr<CSocketManage> pSocketManage = m_pSocketManage.lock();
+    pSocketManage->GetIProtocol()->Packets(m_vWriterBuffer, pOutPacketModel.get());
 
     if(0 != event_add(m_pWriteEvent.get(), NULL))
     {

@@ -19,14 +19,11 @@
 using namespace std;
 using boost::shared_ptr;
 
-class IDealModel;
-
-
 typedef evconnlistener_cb EVCONNLISTENER_CB;
 
-class CSocketHandle;
+class CSocketManage;
 
-class CTcpServer : public boost::noncopyable, public boost::enable_shared_from_this<CTcpServer>
+class CTcpServer : public CSocketManage, public boost::noncopyable, public boost::enable_shared_from_this<CTcpServer>
 {
 public:
 	CTcpServer(boost::shared_ptr<struct event_base> pEventBase) : m_pEventBase(pEventBase) {}
@@ -34,9 +31,6 @@ public:
 
 	bool Init();
     void EraseSocketHandleBySocket(int sock);
-
-    const boost::shared_ptr<IProtocol> &GetIProtocol() { return m_pProtocol; }
-    const boost::shared_ptr<IDealModel> &GetIDealModel() { return m_pDealModel; }
 
 private:
     static void EvConnListenerCb(struct evconnlistener * stener, 
@@ -49,16 +43,9 @@ private:
     static void SocketWriteCb(int fd, short events, void *arg);
 
     struct event_base* GetEventBase() { return m_pEventBase.get(); }
-    boost::shared_ptr<CSocketHandle> GetSocketHandleByFd(int fd);
-    void InsertSocketHandle(int sock, boost::shared_ptr<CSocketHandle> &pSocketHandle);
-
 private:
     boost::shared_ptr<struct evconnlistener> m_pEvConnListener;
     boost::shared_ptr<struct event_base> m_pEventBase;
-    std::map<int, boost::shared_ptr<CSocketHandle>> m_mSocketHandle;
-
-    boost::shared_ptr<IProtocol> m_pProtocol;
-    boost::shared_ptr<IDealModel> m_pDealModel;
 };
 
 #endif
