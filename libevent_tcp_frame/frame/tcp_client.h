@@ -28,7 +28,6 @@ public:
 	virtual ~CTcpClient(){}
 
 	bool Init();
-    void EraseSocketHandleBySocket(int sock);
     bool CreateConnection(const string& strHost, int iPort, int &iSock);
 
     const boost::shared_ptr<IProtocol> &GetIProtocol() { return m_pProtocol; }
@@ -40,7 +39,6 @@ private:
 
     struct event_base* GetEventBase() { return m_pEventBase.get(); }
 private:
-    boost::shared_ptr<struct evconnlistener> m_pEvConnListener;
     boost::shared_ptr<struct event_base> m_pEventBase;
 
     boost::shared_ptr<IProtocol> m_pProtocol;

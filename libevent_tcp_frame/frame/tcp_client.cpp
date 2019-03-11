@@ -20,7 +20,7 @@ bool CTcpClient::Init()
         return false;
     }
 
-    m_pDealModel.reset(CMainConf::GetDealModel());
+    m_pDealModel.reset(CMainConf::GetClientDealModel());
     if(NULL == m_pDealModel)
     {
         ERROR("m_pDealModel is NULL");
@@ -47,13 +47,13 @@ bool CTcpClient::CreateConnection(const string& strHost, int iPort, int &iSock)
 
     fcntl(iSock, F_SETFL, (fcntl(iSock, F_GETFL) | O_NONBLOCK));
     int ret = connect(iSock, (struct sockaddr*)&server_address, sizeof(server_address));
-    if(0==ret || EINPROGRESS==ret)
+    if(0==ret || (ret<0 && EINPROGRESS==errno))
     {
         DEBUG("connect " + strHost + ":" + to_string(iPort));
     }
     else
     {
-        ERROR("connect " + strHost + ":" + to_string(iPort) + " failure");
+        ERROR("connect " + strHost + ":" + to_string(iPort) + " failure ret:" + to_string(ret) + " errno:" + to_string(errno));
         return false;
     }
 

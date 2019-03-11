@@ -97,7 +97,7 @@ void CSocketHandle::WriteData()
         ErrorOrCloseFd();
         return;
     }
-    DEBUG(to_string(len));
+    DEBUG("socketId:" + to_string(m_iSocketFd) + " WriteData Len:" + to_string(len));
     if(0 != evbuffer_get_length(m_vWriterBuffer.get()))
     {
         if(0 != event_add(m_pWriteEvent.get(), NULL))
@@ -122,7 +122,7 @@ void CSocketHandle::WriteData()
         ErrorOrCloseFd();
         return;
     }
-    DEBUG(to_string(len));
+    DEBUG("socketId:" + to_string(m_iSocketFd) + " WriteData Len:" + to_string(len));
     //删除已发送字节
     m_vWriterBuffer.erase(m_vWriterBuffer.begin(), m_vWriterBuffer.begin()+len*sizeof(char));
 

@@ -18,11 +18,9 @@ public:
 
     virtual bool Init(const string &strServerName, const string &strConfPath);
 
-    static bool CreateClient(const string& strHost, int iPort, int &iSock);
-
-private:
-    boost::shared_ptr<CTcpServer> m_pTcpServer;
-    boost::shared_ptr<CTcpClient> m_pTcpClient;
+public:
+    static boost::shared_ptr<CTcpServer> m_pTcpServer;
+    static boost::shared_ptr<CTcpClient> m_pTcpClient;
 };
 
 #endif

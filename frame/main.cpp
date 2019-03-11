@@ -7,7 +7,7 @@
 
 using namespace std;
 
-boost::shared_ptr<CFrame> gFrame;
+static boost::shared_ptr<CFrame> gFrame;
 
 void SignalHandler(int signalNum)
 {

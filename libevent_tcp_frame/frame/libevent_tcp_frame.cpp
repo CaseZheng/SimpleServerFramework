@@ -2,13 +2,8 @@
 #include "libevent_tcp_frame.h"
 #include "log.h"
 
-extern boost::shared_ptr<CFrame> gFrame;
-
-bool CLibeventTcpFrame::CreateClient(const string& strHost, int iPort, int &iSock)
-{
-    auto pTcpFrame = boost::dynamic_pointer_cast<CLibeventTcpFrame>(gFrame);
-    return pTcpFrame->m_pTcpClient->CreateConnection(strHost, iPort, iSock);
-}
+boost::shared_ptr<CTcpServer> CLibeventTcpFrame::m_pTcpServer;
+boost::shared_ptr<CTcpClient> CLibeventTcpFrame::m_pTcpClient;
 
 bool CLibeventTcpFrame::Init(const string &strServerName, const string &strConfPath)
 {

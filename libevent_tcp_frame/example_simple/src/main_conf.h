@@ -53,6 +53,10 @@ public:
         return new(std::nothrow)CExampleDealModel();
     }
 
+    static IDealModel* GetClientDealModel()
+    {
+        return new(std::nothrow)CClientExampleDealModel();
+    }
 };
 
 #endif
