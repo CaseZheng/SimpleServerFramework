@@ -12,11 +12,19 @@ bool CTcpServer::Init()
         ERROR("m_pEventBase is NULL");
         return false;
     }
+    const string &strPort = CConfigure::GetPort();
+    const string &strIp = CConfigure::GetIp();
+    if(strPort.empty() || strIp.empty())
+    {
+        ERROR("ip or port is empty");
+        return false;
+    }
+
     struct sockaddr_in sa;
     bzero(&sa, sizeof(struct sockaddr_in));
     sa.sin_family      = AF_INET;
-    sa.sin_port        = htons(atoi(CConfigure::GetPort().c_str()));
-    sa.sin_addr.s_addr = inet_addr(CConfigure::GetIp().c_str());
+    sa.sin_port        = htons(atoi(strPort.c_str()));
+    sa.sin_addr.s_addr = inet_addr(strIp.c_str());
 
     m_pEvConnListener.reset(
             evconnlistener_new_bind(

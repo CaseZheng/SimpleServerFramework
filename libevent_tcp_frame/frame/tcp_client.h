@@ -21,9 +21,6 @@ using boost::shared_ptr;
 
 class IDealModel;
 
-
-typedef evconnlistener_cb EVCONNLISTENER_CB;
-
 class CTcpClient : public boost::noncopyable, public boost::enable_shared_from_this<CTcpClient>, public CSocketManage
 {
 public:
@@ -32,12 +29,12 @@ public:
 
 	bool Init();
     void EraseSocketHandleBySocket(int sock);
+    bool CreateConnection(const string& strHost, int iPort, int &iSock);
 
     const boost::shared_ptr<IProtocol> &GetIProtocol() { return m_pProtocol; }
     const boost::shared_ptr<IDealModel> &GetIDealModel() { return m_pDealModel; }
 
 private:
-    bool CreateConnection(const string& strHost, int iPort, int &iSock);
     static void SocketReadCb(int fd, short events, void *arg);
     static void SocketWriteCb(int fd, short events, void *arg);
 

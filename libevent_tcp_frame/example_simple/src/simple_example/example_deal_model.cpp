@@ -14,5 +14,12 @@ bool CExampleDealModel::DealPacket(boost::shared_ptr<CSocketHandle> &pSocketHand
     pExampleOutPacketModel->SetMsg("hello client");
     pSocketHandle->WritePacket(pOutPacketModel);
 
+    string strIp = "127.0.0.1";
+    int iPort = 9992;
+
+    int iSock;
+    CLibeventTcpFrame::CreateClient(strIp, iPort, iSock);
+    DEBUG(to_string(iSock));
+
     return true;
 }

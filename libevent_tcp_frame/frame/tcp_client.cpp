@@ -32,9 +32,9 @@ bool CTcpClient::Init()
 
 bool CTcpClient::CreateConnection(const string& strHost, int iPort, int &iSock)
 {
-	if(strHost.empty() || iSock<=0)
+	if(strHost.empty() || iPort<=0)
 	{
-        ERROR("strHost is empty or iSock<=0");
+        ERROR("strHost is empty or iPort<=0");
         return false;
 	}
     struct sockaddr_in server_address;
@@ -47,12 +47,9 @@ bool CTcpClient::CreateConnection(const string& strHost, int iPort, int &iSock)
 
     fcntl(iSock, F_SETFL, (fcntl(iSock, F_GETFL) | O_NONBLOCK));
     int ret = connect(iSock, (struct sockaddr*)&server_address, sizeof(server_address));
-    if(0 == ret)
+    if(0==ret || EINPROGRESS==ret)
     {
-        DEBUG("connect " + strHost + ":" + to_string(iPort) + " success");
-    }
-    else if(EINPROGRESS == ret)
-    {
+        DEBUG("connect " + strHost + ":" + to_string(iPort));
     }
     else
     {

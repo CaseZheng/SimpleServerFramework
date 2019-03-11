@@ -6,6 +6,7 @@
 #include "frame.h"
 #include "libevent_frame.h"
 #include "tcp_server.h"
+#include "tcp_client.h"
 
 using namespace std;
 
@@ -17,8 +18,11 @@ public:
 
     virtual bool Init(const string &strServerName, const string &strConfPath);
 
+    static bool CreateClient(const string& strHost, int iPort, int &iSock);
+
 private:
     boost::shared_ptr<CTcpServer> m_pTcpServer;
+    boost::shared_ptr<CTcpClient> m_pTcpClient;
 };
 
 #endif

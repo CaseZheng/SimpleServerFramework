@@ -70,9 +70,9 @@ void CConfigure::PrintConf()
     for(auto &it : m_mapServiceInfo)
     {
         DEBUG( "ServiceName:" << it.first 
-                << "ServiceId:" << it.second.m_strId
-                << "ServiceIp:" << it.second.m_strIp
-                << "ServicePort:" << it.second.m_strPort);
+                << " ServiceId:" << it.second.m_strId
+                << " ServiceIp:" << it.second.m_strIp
+                << " ServicePort:" << it.second.m_strPort);
     }
 
     DEBUG( "MySqlHost:"        + CConfigure::GetMySqlHost());
